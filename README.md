@@ -13,8 +13,11 @@
 	    .\server\venv\Scripts\activate
 
  2. **Установка зависимостей**
+ 
+
+	    
 	    python -m pip install -r ./server/requirements.txt
 
- 3. **Запуск сервера**
-	    python ./server/market_service/manage.py runserver
+3. **Запуск сервера**
 
+	    python ./server/market_service/manage.py runserver
