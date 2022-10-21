@@ -1,15 +1,21 @@
 from django.db import models
 from uuid import uuid4
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.models import PermissionsMixin
+from .managers import CustomUserManager
 
 
-class User(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    email = models.EmailField(max_length=254, null=False)
-    password = models.TextField(max_length=500, null=False)
+class User(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(max_length=254, null=False, unique=True)
     name = models.TextField(max_length=255, null=True)
     surname = models.TextField(max_length=255, null=True)
     patronymic = models.TextField(max_length=255, null=True)
     address = models.JSONField(null=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    objects = CustomUserManager()
 
     class Meta:
         unique_together = ('id', 'email')
