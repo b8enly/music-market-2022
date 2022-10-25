@@ -1,5 +1,5 @@
+from products_service.models import Category, Type, Product, Brand
 from django.contrib import admin
-from products_service.models import Category, Type, Product
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -14,10 +14,15 @@ class ProductAdmin(admin.ModelAdmin):
     pass
 
 
+class BrandAdmin(admin.ModelAdmin):
+    pass
+
+
 admin_models_map = [
     [Category, CategoryAdmin],
     [Type, TypeAdmin],
-    [Product, ProductAdmin]
+    [Product, ProductAdmin],
+    [Brand, BrandAdmin],
 ]
 
 for admin_models in admin_models_map:

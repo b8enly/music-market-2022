@@ -15,7 +15,11 @@ class StockType(models.Model):
 
 class Stock(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    type = models.ForeignKey(to=StockType, to_field="id", on_delete=models.CASCADE)
+    type = models.ForeignKey(
+        to=StockType, 
+        to_field="id", 
+        on_delete=models.CASCADE
+    )
     name = models.TextField(max_length=255, null=False)
     description = models.TextField(max_length=1000, null=True)
     active_from = models.DateTimeField(default=timezone.now)
@@ -24,7 +28,11 @@ class Stock(models.Model):
 
 class ProductOnSale(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    stock_id = models.ForeignKey(to=Stock, to_field="id", on_delete=models.CASCADE)
+    stock_id = models.ForeignKey(
+        to=Stock, 
+        to_field="id", 
+        on_delete=models.CASCADE
+    )
     product_id = models.UUIDField(null=False)
 
     class Meta:
