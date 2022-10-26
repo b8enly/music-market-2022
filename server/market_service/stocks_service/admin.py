@@ -1,5 +1,5 @@
-from django.contrib import admin
 from stocks_service.models import StockType, Stock, ProductOnSale
+from django.contrib import admin
 
 
 class StockTypeAdmin(admin.ModelAdmin):
