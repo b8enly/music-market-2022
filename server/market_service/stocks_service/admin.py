@@ -1,25 +1,17 @@
 from stocks_service.models import StockType, Stock, ProductOnSale
-from django.contrib import admin
+from django.contrib.admin import ModelAdmin, register
 
 
-class StockTypeAdmin(admin.ModelAdmin):
+@register(StockType)
+class StockTypeAdmin(ModelAdmin):
     pass
 
 
-class StockAdmin(admin.ModelAdmin):
+@register(Stock)
+class StockAdmin(ModelAdmin):
     pass
 
 
-class ProductOnSaleAdmin(admin.ModelAdmin):
+@register(ProductOnSale)
+class ProductOnSaleAdmin(ModelAdmin):
     pass
-
-
-admin_models_map = [
-    [StockType, StockTypeAdmin],
-    [Stock, StockAdmin],
-    [ProductOnSale, ProductOnSaleAdmin]
-]
-
-for admin_models in admin_models_map:
-    admin.site.register(*admin_models)
-

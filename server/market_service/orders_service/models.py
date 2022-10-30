@@ -11,10 +11,16 @@ class PayMethod(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.TextField(max_length=255, null=False, unique=True)
 
+    def __str__(self) -> str:
+        return self.name
+
 
 class DeliveryMethod(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.TextField(max_length=255, null=False, unique=True)
+
+    def __str__(self) -> str:
+        return self.name
 
 
 class ProductSet(models.Model):

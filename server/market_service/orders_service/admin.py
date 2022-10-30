@@ -1,29 +1,22 @@
 from orders_service.models import PayMethod, Order, DeliveryMethod, ProductSet
-from django.contrib import admin
+from django.contrib.admin import register, ModelAdmin
 
 
-class PayMethodAdmin(admin.ModelAdmin):
+@register(PayMethod)
+class PayMethodAdmin(ModelAdmin):
     pass
 
 
-class OrderAdmin(admin.ModelAdmin):
+@register(Order)
+class OrderAdmin(ModelAdmin):
     pass
 
 
-class DeliveryMethodAdmin(admin.ModelAdmin):
+@register(DeliveryMethod)
+class DeliveryMethodAdmin(ModelAdmin):
     pass
 
 
-class ProductSetAdmin(admin.ModelAdmin):
+@register(ProductSet)
+class ProductSetAdmin(ModelAdmin):
     pass
-
-
-admin_models_map = [
-    [PayMethod, PayMethodAdmin],
-    [Order, OrderAdmin],
-    [DeliveryMethod, DeliveryMethodAdmin],
-    [ProductSet, ProductSetAdmin],
-]
-
-for admin_models in admin_models_map:
-    admin.site.register(*admin_models)

@@ -1,30 +1,39 @@
 from products_service.models import Category, Type, Product, Brand
-from django.contrib import admin
+from django.contrib.admin import ModelAdmin, register
 
 
-class CategoryAdmin(admin.ModelAdmin):
-    pass
+@register(Category)
+class CategoryAdmin(ModelAdmin):
+    list_display = (
+        "id", 
+        "name",
+    )
 
 
-class TypeAdmin(admin.ModelAdmin):
-    pass
+@register(Type)
+class TypeAdmin(ModelAdmin):
+    list_display = (
+        "id", 
+        "name",
+    )
 
 
-class ProductAdmin(admin.ModelAdmin):
-    pass
+@register(Product)
+class ProductAdmin(ModelAdmin):
+    list_display = (
+        "id",
+        "category",
+        "type",
+        "brand",
+        "name",
+        "price",
+        "amount",
+    )
 
 
-class BrandAdmin(admin.ModelAdmin):
-    pass
-
-
-admin_models_map = [
-    [Category, CategoryAdmin],
-    [Type, TypeAdmin],
-    [Product, ProductAdmin],
-    [Brand, BrandAdmin],
-]
-
-for admin_models in admin_models_map:
-    admin.site.register(*admin_models)
-
+@register(Brand)
+class BrandAdmin(ModelAdmin):
+    list_display = (
+        "id", 
+        "name",
+    )
