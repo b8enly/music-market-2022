@@ -5,4 +5,11 @@ from users_service.models import User
 class UserModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = "__all__"
+        
+        fields = (
+            "id",
+            "email",
+            "name",
+            "surname",
+            "address",
+        )
