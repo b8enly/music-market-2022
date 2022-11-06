@@ -1,29 +1,51 @@
 from orders_service.models import PayMethod, Order, DeliveryMethod, ProductSet
-from django.contrib import admin
+from django.contrib.admin import register, ModelAdmin
 
 
-class PayMethodAdmin(admin.ModelAdmin):
-    pass
+@register(PayMethod)
+class PayMethodAdmin(ModelAdmin):
+    list_display = (
+        "id",
+        "name",
+    )
+
+    readonly_fields = (
+        "id",
+    )
 
 
-class OrderAdmin(admin.ModelAdmin):
-    pass
+@register(Order)
+class OrderAdmin(ModelAdmin):
+    list_display = (
+        "number",
+        "user_id",
+    )
+
+    readonly_fields = (
+        "number",
+    )
 
 
-class DeliveryMethodAdmin(admin.ModelAdmin):
-    pass
+@register(DeliveryMethod)
+class DeliveryMethodAdmin(ModelAdmin):
+    list_display = (
+        "id",
+        "name",
+    )
+
+    readonly_fields = (
+        "id",
+    )
 
 
-class ProductSetAdmin(admin.ModelAdmin):
-    pass
+@register(ProductSet)
+class ProductSetAdmin(ModelAdmin):
+    list_display = (
+        "id",
+        "user_id",
+        "product_id",
+    )
 
-
-admin_models_map = [
-    [PayMethod, PayMethodAdmin],
-    [Order, OrderAdmin],
-    [DeliveryMethod, DeliveryMethodAdmin],
-    [ProductSet, ProductSetAdmin],
-]
-
-for admin_models in admin_models_map:
-    admin.site.register(*admin_models)
+    readonly_fields = (
+        "id",
+    )

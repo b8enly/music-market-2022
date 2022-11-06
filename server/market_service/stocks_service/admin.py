@@ -1,25 +1,40 @@
 from stocks_service.models import StockType, Stock, ProductOnSale
-from django.contrib import admin
+from django.contrib.admin import ModelAdmin, register
 
 
-class StockTypeAdmin(admin.ModelAdmin):
-    pass
+@register(StockType)
+class StockTypeAdmin(ModelAdmin):
+    list_display = (
+        "id",
+        "name",
+    )
+
+    readonly_fields = (
+        "id",
+    )
 
 
-class StockAdmin(admin.ModelAdmin):
-    pass
+@register(Stock)
+class StockAdmin(ModelAdmin):
+    list_display = (
+        "id",
+        "type",
+        "name"
+    )
+
+    readonly_fields = (
+        "id",
+    )
 
 
-class ProductOnSaleAdmin(admin.ModelAdmin):
-    pass
+@register(ProductOnSale)
+class ProductOnSaleAdmin(ModelAdmin):
+    list_display = (
+        "id",
+        "stock",
+        "product_id",
+    )
 
-
-admin_models_map = [
-    [StockType, StockTypeAdmin],
-    [Stock, StockAdmin],
-    [ProductOnSale, ProductOnSaleAdmin]
-]
-
-for admin_models in admin_models_map:
-    admin.site.register(*admin_models)
-
+    readonly_fields = (
+        "id",
+    )
