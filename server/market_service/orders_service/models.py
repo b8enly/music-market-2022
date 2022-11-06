@@ -12,7 +12,7 @@ class PayMethod(models.Model):
     name = models.TextField(max_length=255, null=False, unique=True)
 
     def __str__(self) -> str:
-        return self.name
+        return f"{self.id} {self.name}"
 
 
 class DeliveryMethod(models.Model):
@@ -20,7 +20,7 @@ class DeliveryMethod(models.Model):
     name = models.TextField(max_length=255, null=False, unique=True)
 
     def __str__(self) -> str:
-        return self.name
+        return f"{self.id} {self.name}"
 
 
 class ProductSet(models.Model):
@@ -50,3 +50,6 @@ class Order(models.Model):
         to_field="id", 
         on_delete=models.CASCADE
     )
+
+    def __str__(self) -> str:
+        return f"{self.number}"

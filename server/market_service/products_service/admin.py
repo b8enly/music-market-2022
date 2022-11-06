@@ -9,12 +9,20 @@ class CategoryAdmin(ModelAdmin):
         "name",
     )
 
+    readonly_fields = (
+        "id",
+    )
+
 
 @register(Type)
 class TypeAdmin(ModelAdmin):
     list_display = (
         "id", 
         "name",
+    )
+
+    readonly_fields = (
+        "id",
     )
 
 
@@ -29,6 +37,10 @@ class ProductAdmin(ModelAdmin):
         "price",
         "amount",
     )
+    
+    readonly_fields = (
+        "id",
+    )
 
 
 @register(Brand)
@@ -36,4 +48,8 @@ class BrandAdmin(ModelAdmin):
     list_display = (
         "id", 
         "name",
+    )
+
+    readonly_fields = (
+        "id",
     )
