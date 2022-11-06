@@ -23,6 +23,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         unique_together = ('id', 'email')
 
+    def __str__(self) -> str:
+        return f"{str(self.id)[:4]} {self.name} {self.surname}"
+
 
 class Cart(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
