@@ -6,6 +6,7 @@
     <!--    </nav>-->
     <HeaderComponent/>
     <router-view/>
+    <FooterComponent />
   </div>
 </template>
 
@@ -32,6 +33,7 @@
 
 body {
   margin: 0;
+  background: #F5F5F5;
 }
 
 nav {
@@ -84,8 +86,9 @@ h5 {
 
 <script>
 import HeaderComponent from "@/components/HeaderComponent";
+import FooterComponent from "@/components/FooterComponent";
 
 export default {
-  components: {HeaderComponent}
+  components: {FooterComponent, HeaderComponent}
 }
 </script>

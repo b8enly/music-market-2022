@@ -128,10 +128,10 @@ export default {
   color: rgba(248, 248, 248, 1);
 }
 .col-3{
-  min-width: 315px;
+  max-width: 315px;
 }
 .col-4{
-  min-width: 360px;
+  max-width: 360px;
 }
 
 </style>
