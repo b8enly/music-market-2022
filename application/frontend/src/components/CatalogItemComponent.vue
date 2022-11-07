@@ -44,6 +44,7 @@ export default {
     flex-direction: column;
     flex-wrap: nowrap;
     border-radius: 30px;
+    margin: 5px;
   }
   .card_header{
     display: flex;
@@ -81,6 +82,7 @@ export default {
     border-radius: 50%;
     display: inline-block;
     margin: 0 4px;
+    cursor: pointer;
   }
   .switch_active{
     background-color: rgba(223, 178, 89, 1);
@@ -123,5 +125,9 @@ export default {
     color: rgba(116, 116, 116, 1);
     font-size: 18px;
     text-decoration: line-through;
+  }
+  .card_guitar{
+    display: flex;
+    justify-content: center;
   }
 </style>

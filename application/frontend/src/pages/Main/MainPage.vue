@@ -25,6 +25,10 @@
       </div>
       <div class="items__products">
         <!--      Здесь должна быть карточка -->
+        <CatalogItemComponent />
+        <CatalogItemComponent />
+        <CatalogItemComponent />
+        <CatalogItemComponent />
       </div>
       <button class="items__show-more">Показать еще</button>
     </section>
@@ -157,9 +161,16 @@
       <div class="description__background-light"></div>
     </section>
     <section class="main__feedback feedback">
+      <div class="feedback__first-row">
       <h2 class="feedback__title">О нас пишут...</h2>
       <button class="feedback__btn">Смотреть все &#8594;</button>
       <!--      Здесь должна быть карточка -->
+      </div>
+      <div  class="feedback__second-row">
+      <ReviewItemComponent />
+      <ReviewItemComponent />
+      <ReviewItemComponent />
+      </div>
     </section>
   </main>
 </template>
@@ -180,9 +191,12 @@ import Sharvel from "../../assets/img/sharvel.png"
 import Sigma from "../../assets/img/sigma.png"
 import Ibanez from "../../assets/img/ibanez.png"
 import BackgroundImage from "../../assets/img/backgroundmain.png"
+import CatalogItemComponent from "@/components/CatalogItemComponent";
+import ReviewItemComponent from "@/components/ReviewItemComponent";
 
 export default {
   name: "MainPage",
+  components: {ReviewItemComponent, CatalogItemComponent},
   data: () => ({
     AcousticGuitar: AcousticGuitar,
     ElectricGuitar: ElectricGuitar,
@@ -204,9 +218,7 @@ export default {
 
 <style scoped>
 /*в целом, зачем нужен здесь scoped? мы не используем ни БЭМ, ни scss*/
-.main {
-  background: #F5F5F5;
-}
+
 
 .main__block {
   position: relative;
@@ -274,7 +286,7 @@ export default {
 }
 
 .items {
-  margin: 5% 0 5% 5%;
+  margin: 5%;
 }
 
 .main__items {
@@ -311,7 +323,14 @@ export default {
   color: #DFB259;
   text-decoration-line: underline;
 }
-
+.items__products{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: 100%;
+  margin: 0 -5px 55px -5px;
+}
 .items__show-more {
   width: 300px;
   height: 65px;
@@ -740,9 +759,6 @@ export default {
 }
 
 .feedback {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   margin: 5%;
 }
 
@@ -759,5 +775,16 @@ export default {
 .feedback__btn:hover {
   text-decoration-line: underline;
 }
-
+.feedback__first-row{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.feedback__second-row{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 50px 0 20px 0;
+  margin: 0 -5px 0 -5px;
+}
 </style>
