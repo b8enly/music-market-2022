@@ -6,7 +6,7 @@
     <!--    </nav>-->
     <HeaderComponent/>
     <router-view/>
-    <FooterComponent />
+    <FooterComponent/>
   </div>
 </template>
 
