@@ -80,7 +80,6 @@ export default {
     Sticky: function () {
       this.b = document.querySelector('.top_header');
       this.a = document.querySelector('.bottom_header');
-      console.log(this.b.getBoundingClientRect().top)
       if(this.b.getBoundingClientRect().top >= -70)
       {
         this.a.classList.remove('sticky');
@@ -220,6 +219,7 @@ export default {
   position: fixed;
   z-index: 101;
 }
+
 .bottom_header_catalog {
   display: flex;
   align-items: center;
