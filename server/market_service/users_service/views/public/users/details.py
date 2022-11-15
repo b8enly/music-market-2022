@@ -19,7 +19,6 @@ def detail(request: Request, user_id: UUID) -> Response:
         user_info = DjoserMapper.get_me(
             auth_token=request.headers.get("Authorization")
         )
-
         user = UsersMapper.get_user_by_id(user_id=user_info.get("id"))
     
         return Response(data=UserModelSerializer(user).data)
