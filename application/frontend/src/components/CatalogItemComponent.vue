@@ -1,7 +1,9 @@
 <template>
+  <!-- из каталога и главной стр передается пропс на данные о карточке -->
+  <router-link class="card__link" :to="{ name: 'product', params: { category: 'acoustic_guitars', id: Math.ceil(Math.random() * 16) }}">
   <div class="card">
     <div class="card_header">
-   <div class="card_teg">  <!--   тег непонятно кликабедьная ли-->
+   <div class="card_tag">  <!--   тег непонятно кликабедьная ли-->
         Популярное
       </div>
       <div class="wrapper_favorite">
@@ -25,11 +27,20 @@
       </div>
     </div>
   </div>
+  </router-link>
 </template>
 
 <script>
 export default {
-  name: "CatalogItemComponent"
+  name: "CatalogItemComponent",
+  // props: {
+  //   product_data: {
+  //     type: Object,
+  //     default() {
+  //       return {};
+  //     }
+  //   }
+  // },
 }
 </script>
 
@@ -44,7 +55,7 @@ export default {
     flex-direction: column;
     flex-wrap: nowrap;
     border-radius: 30px;
-    margin: 5px;
+    margin: 10px 5px;
   }
   .card_header{
     display: flex;
@@ -52,7 +63,7 @@ export default {
     align-items: flex-start;
     padding: 20px;
   }
-  .card_teg{
+  .card_tag{
     border: 1px solid rgba(223, 178, 89, 1);
     color: rgba(223, 178, 89, 1);
     box-sizing: border-box;
@@ -129,5 +140,8 @@ export default {
   .card_guitar{
     display: flex;
     justify-content: center;
+  }
+  .card__link{
+    text-decoration: none;
   }
 </style>

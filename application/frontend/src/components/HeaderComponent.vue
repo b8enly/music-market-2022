@@ -49,7 +49,7 @@
     <div class="bottom_header_search">
       <img :src="require('../assets/icon/iconSearch.svg')" height="15" width="15" alt="search"/>
       <input class="search_input" placeholder="Поиск..."/>
-      <button class="search_button"> <img :src="require('../assets/icon/iconArrow.svg')" alt="arrow" width="24" height="14"> </button>
+      <button class="search_button"> <img :src="require('../assets/icon/iconArrowWhite.svg')" alt="arrow" width="24" height="14"> </button>
     </div>
     </div>
 
@@ -80,7 +80,6 @@ export default {
     Sticky: function () {
       this.b = document.querySelector('.top_header');
       this.a = document.querySelector('.bottom_header');
-      console.log(this.b.getBoundingClientRect().top)
       if(this.b.getBoundingClientRect().top >= -70)
       {
         this.a.classList.remove('sticky');
@@ -220,6 +219,7 @@ export default {
   position: fixed;
   z-index: 101;
 }
+
 .bottom_header_catalog {
   display: flex;
   align-items: center;

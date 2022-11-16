@@ -6,7 +6,7 @@
     <!--    </nav>-->
     <HeaderComponent/>
     <router-view/>
-    <FooterComponent />
+    <FooterComponent/>
   </div>
 </template>
 
@@ -73,6 +73,14 @@ h3 {
   margin: 0 0 0 0;
 }
 
+h4 {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 48px;
+  color: #DFB259;
+}
+
 h5 {
   color: #DFB259;
   font-style: normal;
@@ -80,6 +88,13 @@ h5 {
   font-size: 45px;
   line-height: 54px;
   margin: 0 0 0 0;
+}
+
+h6 {
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 39px;
+  color: #1D1D1D;
 }
 
 </style>
