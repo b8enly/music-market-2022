@@ -786,5 +786,6 @@ export default {
   justify-content: space-between;
   padding: 50px 0 20px 0;
   margin: 0 -5px 0 -5px;
+  flex-wrap: wrap;
 }
 </style>

@@ -38,7 +38,7 @@
     <div class="footer__subscription">
       <img :src="require('../assets/icon/iconSearch.svg')" height="15" width="15" alt="subscription"/>
       <input class="footer__input" placeholder="email..." id="subscription"/>
-      <button class="footer__button"> <img :src="require('../assets/icon/iconArrow.svg')" alt="arrow" width="24" height="14"> </button>
+      <button class="footer__button"> <img :src="require('../assets/icon/iconArrowWhite.svg')" alt="arrow" width="24" height="14"> </button>
     </div>
   </div>
 </footer>
@@ -56,7 +56,6 @@ export default {
   flex-direction: row;
   padding: 4% 7% 0 7%;
   color: rgba(248, 248, 248, 1);
-  max-height: 272px;
   min-height: 250px;
   background-color: rgba(29, 29, 29, 1);
   justify-content: space-between;
