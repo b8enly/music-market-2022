@@ -63,10 +63,12 @@
     <!--      карточки-->
 
     <div class="catalog__card-wrapper">
+
       <CatalogItemComponent
           v-for="(product, index) in 16"
           :key="index"
       />
+      <!--          v-bind:product_data="product"-->
     </div>
 
 
@@ -76,14 +78,14 @@
       <div class="catalog__page-prev" v-if="this.currentPage > 1">
         <span class="catalog__prev-btn" @click="()=>{return this.currentPage-=1}"><img class="catalog__page-img"
                                                                                        style="transform:rotateY(180deg)"
-                                                                                       :src="require('../../assets/icon/iconArrowBlackRigth.svg')" alt="arrow"> Предыдущая страница </span>
+                                                                                       :src="require('../../assets/icon/iconArrowBlack.svg')" alt="arrow"> Предыдущая страница </span>
         <span class="catalog__page-add"> ... </span>
       </div>
 
       <div class="catalog__page-wrapper">
         <input class="catalog__page-btn"
                type="button"
-                :class="{active: page===currentPage}"
+                :class="{'active': page===currentPage}"
                 v-for="(page, index) in pages"
                 :key="index"
                 @click="nextPage(page)"
@@ -94,7 +96,7 @@
         <div class="catalog__page-next" v-if="this.currentPage < this.pages">
         <span class="catalog__page-add"> ... </span>
         <span class="catalog__next-btn" @click="()=>{return this.currentPage+=1}"> Следующая страница <img class="catalog__page-img"
-                                                                                                           :src="require('../../assets/icon/iconArrowBlackRigth.svg')" alt="arrow"></span>
+                                                                                                           :src="require('../../assets/icon/iconArrowBlack.svg')" alt="arrow"></span>
           <!-- переделать span на button?-->
         </div>
     </div>
@@ -316,4 +318,5 @@ input:checked + .slider:before {
 .catalog__next-btn, .catalog__prev-btn{
   cursor: pointer;
 }
+
 </style>

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import MainPage from "@/pages/Main/MainPage";
 import ShoppingCart from "@/pages/Cart/ShoppingCart";
 import CatalogPage from "@/pages/Catalog/CatalogPage";
+import ProductPage from "@/pages/Product/ProductPage";
 
 
 Vue.use(VueRouter)
@@ -19,9 +20,17 @@ const routes = [
     component:  ShoppingCart
   },
   {
-    path: '/catalog',
+    path: '/catalog/:category', // категория товара например акустические гитары
     name: 'catalog',
-    component: CatalogPage
+    component: CatalogPage,
+    props: true
+  },
+  {
+    path: '/catalog/:category/:id', // категория товара например акустические гитары и id товара
+    name: 'product',
+    component: ProductPage,
+    props: true
+
   }
 
 ]

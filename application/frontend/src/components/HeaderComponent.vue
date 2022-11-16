@@ -49,7 +49,7 @@
     <div class="bottom_header_search">
       <img :src="require('../assets/icon/iconSearch.svg')" height="15" width="15" alt="search"/>
       <input class="search_input" placeholder="Поиск..."/>
-      <button class="search_button"> <img :src="require('../assets/icon/iconArrow.svg')" alt="arrow" width="24" height="14"> </button>
+      <button class="search_button"> <img :src="require('../assets/icon/iconArrowWhite.svg')" alt="arrow" width="24" height="14"> </button>
     </div>
     </div>
 
