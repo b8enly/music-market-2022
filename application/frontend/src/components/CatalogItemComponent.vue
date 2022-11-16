@@ -44,7 +44,7 @@ export default {
     flex-direction: column;
     flex-wrap: nowrap;
     border-radius: 30px;
-    margin: 5px;
+    margin: 10px 5px;
   }
   .card_header{
     display: flex;
