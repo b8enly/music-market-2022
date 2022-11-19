@@ -33,3 +33,21 @@ class PaginatedRequestSerializer(Serializer):
             parameter="page_size"
         )
         return self
+
+
+class LimitRequestSerializer(Serializer):
+    count = CharField(required=True)
+
+    def validate_count(self, value: Any) -> int:
+        if isinstance(value, int):
+            return value
+        if isinstance(value, str):
+            if not value.isdigit():
+                raise ValidationException(
+                    detail="count parameter must be an integer"
+                )
+            return int(value)
+    
+    def validate(self, attrs):
+        self.count = self.validate_count(attrs.get("count"))
+        return self

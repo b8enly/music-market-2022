@@ -13,6 +13,14 @@ class BrandMapper:
         except ObjectDoesNotExist:
             return None
 
+    @staticmethod
+    def find_all() -> QuerySet:
+        return Brand.objects.all()
+
+    @staticmethod
+    def find_limited(limit: int) -> QuerySet:
+        return Brand.objects.all()[:limit]
+
 
 class CategoryMapper:
     @staticmethod
@@ -21,6 +29,14 @@ class CategoryMapper:
             return Category.objects.get(id=id)
         except ObjectDoesNotExist:
             return None
+
+    @staticmethod
+    def find_all() -> QuerySet:
+        return Category.objects.all()
+
+    @staticmethod
+    def find_limited(limit: int) -> QuerySet:
+        return Category.objects.all()[:limit]
 
 
 class ProductMapper:
@@ -65,3 +81,7 @@ class TypeMapper:
             return Type.objects.get(id=id)
         except ObjectDoesNotExist:
             return None
+
+    @staticmethod
+    def find_limited(limit: int) -> QuerySet:
+        return Type.objects.all()[:limit]
