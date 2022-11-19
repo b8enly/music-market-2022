@@ -3,31 +3,27 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.request import Request
 
-from products_service.mappers.models.category_mapper import CategoryMapper
-from products_service.mappers.models.product_mapper import ProductMapper
-from products_service.mappers.models.brand_mapper import BrandMapper
-from products_service.serializers.responses.paginated_response import (
-    ProductsPaginatedResponse
+from products_service.exceptions.service import ValidationException
+from products_service.serializers.requests.products import (
+    CategoryTypeProductsRequestSerializer,
+    BrandTypeProductsRequestSerializer,
+    CategoryProductsRequestSerializer,
+    BrandProductsRequestSerializer,
+    ProductDetailRequest
 )
-from products_service.serializers.responses.products_response import (
-    ProductSerializer
+from products_service.serializers.responses.products import (
+    CategoryTypeProductsResponseSerializer,
+    BrandTypeProductsResponseSerializer,
+    CategoryProductsResponseSerializer,
+    BrandProductsResponseSerializer,
+    ProductDetailResponseSerializer
 )
-from products_service.serializers.responses.category_response import (
-    CategorySerializer
+from products_service.mappers.models import (
+    CategoryMapper,
+    ProductMapper,
+    BrandMapper,
+    TypeMapper
 )
-from products_service.serializers.requests.products_requests import (
-    CategoryProductsRequest
-)
-from products_service.serializers.requests.brands_requests import (
-    BrandProductsRequest
-)
-from products_service.serializers.responses.brand_response import (
-    BrandSerializer
-)
-from products_service.serializers.requests.products_requests import CategoryTypeProductsRequest
-from products_service.serializers.requests.brands_requests import BrandTypeProductsRequest
-from products_service.serializers.requests.products_requests import ProductDetailRequest
-from products_service.serializers.responses.products_response import ProductSerializer
 
 from uuid import UUID
 
@@ -45,13 +41,14 @@ def category_products(request: Request, category_id: UUID) -> Response:
     json_page_size = request.data.get("page_size")
     page_size = json_page_size if query_page_size is None else query_page_size
 
-    request_serializer = CategoryProductsRequest().validate(attrs={
+    request_serializer = CategoryProductsRequestSerializer().validate(attrs={
         "category_id": category_id,
         "page": page,
         "page_size": page_size
     })
 
-    products = ProductMapper.find_products_by_category(
+    category = CategoryMapper.get_by_id(id=category_id)
+    products = ProductMapper.find_by_category(
         category_id=request_serializer.category_id
     )
 
@@ -59,10 +56,15 @@ def category_products(request: Request, category_id: UUID) -> Response:
         object_list=products,
         per_page=request_serializer.page_size
     )
+    if paginator.num_pages < request_serializer.page:
+        raise ValidationException(
+            detail=f"page number too large, max - {paginator.num_pages}"
+        )
 
-    response_serializer = ProductsPaginatedResponse(
+    response_serializer = CategoryProductsResponseSerializer(
         paginator=paginator,
-        page_number=request_serializer.page
+        page_number=request_serializer.page,
+        category=category
     )
 
     return Response(data=response_serializer.data)
@@ -78,22 +80,28 @@ def brand_products(request: Request, brand_id: UUID) -> Response:
     json_page_size = request.data.get("page_size")
     page_size = json_page_size if query_page_size is None else query_page_size
 
-    request_serializer = BrandProductsRequest().validate(attrs={
+    request_serializer = BrandProductsRequestSerializer().validate(attrs={
         "brand_id": brand_id,
         "page": page,
         "page_size": page_size
     })
 
-    products = ProductMapper.find_products_by_brand(brand_id=brand_id)
+    brand = BrandMapper.get_by_id(id=brand_id)
+    products = ProductMapper.find_by_brand(brand_id=brand_id)
 
     paginator = DjangoPaginator(
         object_list=products,
         per_page=request_serializer.page_size
     )
+    if paginator.num_pages < request_serializer.page:
+        raise ValidationException(
+            detail=f"page number too large, max - {paginator.num_pages}"
+        )
 
-    response_serializer = ProductsPaginatedResponse(
+    response_serializer = BrandProductsResponseSerializer(
         paginator=paginator,
-        page_number=request_serializer.page
+        page_number=request_serializer.page,
+        brand=brand
     )
 
     return Response(data=response_serializer.data)
@@ -113,13 +121,17 @@ def category_type_products(
     json_page_size = request.data.get("page_size")
     page_size = json_page_size if query_page_size is None else query_page_size
 
-    request_serializer = CategoryTypeProductsRequest().validate(attrs={
-        "category_id": category_id,
-        "type_id": type_id,
-        "page": page,
-        "page_size": page_size
-    })
+    request_serializer = CategoryTypeProductsRequestSerializer().validate(
+        attrs={
+            "category_id": category_id,
+            "type_id": type_id,
+            "page": page,
+            "page_size": page_size
+        }
+    )
 
+    category = CategoryMapper.get_by_id(id=category_id)
+    type = TypeMapper.get_by_id(id=type_id)
     products = ProductMapper.find_by_category_and_type(
         category_id=category_id,
         type_id=type_id
@@ -129,10 +141,16 @@ def category_type_products(
         object_list=products,
         per_page=request_serializer.page_size
     )
+    if paginator.num_pages < request_serializer.page:
+        raise ValidationException(
+            detail=f"page number too large, max - {paginator.num_pages}"
+        )
 
-    response_serializer = ProductsPaginatedResponse(
+    response_serializer = CategoryTypeProductsResponseSerializer(
         paginator=paginator,
-        page_number=request_serializer.page
+        page_number=request_serializer.page,
+        category=category,
+        type=type
     )
 
     return Response(data=response_serializer.data)
@@ -152,13 +170,15 @@ def brand_type_products(
     json_page_size = request.data.get("page_size")
     page_size = json_page_size if query_page_size is None else query_page_size
 
-    request_serializer = BrandTypeProductsRequest().validate(attrs={
+    request_serializer = BrandTypeProductsRequestSerializer().validate(attrs={
         "brand_id": brand_id,
         "type_id": type_id,
         "page": page,
         "page_size": page_size
     })
 
+    brand = BrandMapper.get_by_id(id=brand_id)
+    type = TypeMapper.get_by_id(id=type_id)
     products = ProductMapper.find_by_brand_and_type(
         brand_id=brand_id, 
         type_id=type_id
@@ -168,10 +188,16 @@ def brand_type_products(
         object_list=products,
         per_page=request_serializer.page_size
     )
+    if paginator.num_pages < request_serializer.page:
+        raise ValidationException(
+            detail=f"page number too large, max - {paginator.num_pages}"
+        )
 
-    response_serializer = ProductsPaginatedResponse(
+    response_serializer = BrandTypeProductsResponseSerializer(
         paginator=paginator,
-        page_number=request_serializer.page
+        page_number=request_serializer.page,
+        brand=brand,
+        type=type
     )
 
     return Response(data=response_serializer.data)
@@ -185,6 +211,9 @@ def product_detail(request: Request, product_id: UUID) -> Response:
 
     product = ProductMapper.get_by_id(id=product_id)
 
-    response_serializer = ProductSerializer(instance=[product], many=True)
+    response_serializer = ProductDetailResponseSerializer(
+        instance=[product],
+        many=True
+    )
 
-    return Response(data=response_serializer.data)
+    return Response(data=response_serializer.data[0])
