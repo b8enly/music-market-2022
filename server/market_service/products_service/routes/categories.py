@@ -8,7 +8,7 @@ from django.urls import path
 urlpatterns = [
     path(
         route="categories", 
-        views=categories
+        view=categories
     ),
     path(
         route="categories/list", 
