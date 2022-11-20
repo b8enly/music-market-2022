@@ -7,7 +7,7 @@ from users_service.serializers.requests.favorites import (
     FavoritesDeleteRequestSerializer,
     FavoritesAddRequestSerializer,
 )
-from users_service.exceptions.mappers import FavoriteMapperCreateException
+from users_service.exceptions.mappers import MapperCreateException
 from users_service.exceptions.service import BadRequestExcpetion
 from users_service.mappers.models import FavoritesMapper
 from users_service.mappers.services import DjoserMapper
@@ -30,7 +30,7 @@ def add_to_favorites(request: Request) -> Response:
             user_id=user_info.get("id"),
             product_id=request_serializer.product_id
         )
-    except FavoriteMapperCreateException as e:
+    except MapperCreateException as e:
         raise BadRequestExcpetion(detail=e.args)
 
     return Response(data={

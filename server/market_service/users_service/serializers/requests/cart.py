@@ -1,20 +1,20 @@
 from users_service.exceptions.service import ValidationException
-from users_service.mappers.models import FavoritesMapper
 from users_service.serializers.requests.base import (
     ProductAddRequestSerializer,
     PaginatedRequestSerializer,
 )
+from users_service.mappers.models import CartMapper
 
 from rest_framework.serializers import UUIDField
 from typing import Any
 from uuid import UUID
 
 
-class FavoritesAddRequestSerializer(ProductAddRequestSerializer):
+class CartAddRequestSerializer(ProductAddRequestSerializer):
     pass
 
 
-class FavoritesDeleteRequestSerializer(FavoritesAddRequestSerializer):
+class CartDeleteRequestSerializer(CartAddRequestSerializer):
     user_id = UUIDField(required=True)
 
     def validate_product_id(self, value: Any) -> UUID:
@@ -23,7 +23,7 @@ class FavoritesDeleteRequestSerializer(FavoritesAddRequestSerializer):
     def validate(self, attrs: dict):
         super().validate(attrs=attrs)
         self.user_id = attrs.get("user_id")
-        if not FavoritesMapper.get_by_user_id_and_product_id(
+        if not CartMapper.get_by_user_id_and_product_id(
             user_id=self.user_id,
             product_id=self.product_id
         ):
@@ -31,5 +31,5 @@ class FavoritesDeleteRequestSerializer(FavoritesAddRequestSerializer):
         return self
 
 
-class FavoritesPaginatedRequestSerializer(PaginatedRequestSerializer):
+class CartPaginatedRequestSerializer(PaginatedRequestSerializer):
     pass

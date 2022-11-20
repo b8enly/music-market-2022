@@ -23,7 +23,7 @@ class UserMapperUpdateException(Exception):
         return f"failed update user:\n{self.args}"
 
 
-class FavoriteMapperCreateException(Exception):
+class MapperCreateException(Exception):
     def __init__(self, *args: object) -> None:
         super().__init__(*args)
         if "UNIQUE constraint failed" in self.args[0][0]:
