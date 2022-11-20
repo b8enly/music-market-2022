@@ -1,5 +1,9 @@
 from django.urls import path, include
 
+NAMESPACE = "users_service.routes"
+
 urlpatterns = [
-    path("internal/", include("users_service.views.internal.internal_urls"))
+    path("", include(f"{NAMESPACE}.favorites")),
+    path("", include(f"{NAMESPACE}.djoser")),
+    path("", include(f"{NAMESPACE}.users")),
 ]
