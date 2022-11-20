@@ -1,7 +1,5 @@
 from users_service.models import Favorites
-
 from django.db.models import QuerySet
-
 from uuid import UUID
 
 
