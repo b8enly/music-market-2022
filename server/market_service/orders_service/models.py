@@ -11,10 +11,16 @@ class PayMethod(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.TextField(max_length=255, null=False, unique=True)
 
+    def __str__(self) -> str:
+        return f"{self.id} {self.name}"
+
 
 class DeliveryMethod(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.TextField(max_length=255, null=False, unique=True)
+
+    def __str__(self) -> str:
+        return f"{self.id} {self.name}"
 
 
 class ProductSet(models.Model):
@@ -44,3 +50,6 @@ class Order(models.Model):
         to_field="id", 
         on_delete=models.CASCADE
     )
+
+    def __str__(self) -> str:
+        return f"{self.number}"
