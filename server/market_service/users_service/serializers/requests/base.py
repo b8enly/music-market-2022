@@ -1,6 +1,31 @@
-from products_service.exceptions.service import ValidationException
-from rest_framework.serializers import Serializer, CharField
+from rest_framework.serializers import Serializer, CharField, UUIDField
+from users_service.exceptions.service import ValidationException
 from typing import Any
+from uuid import UUID
+
+
+class ProductAddRequestSerializer(Serializer):
+    product_id = UUIDField(required=True)
+    
+    def validate_product_id(self, value: Any) -> UUID:
+        if not isinstance(value, UUID):
+            try:
+                return UUID(value)
+            except (ValueError, AttributeError):
+                raise ValidationException(
+                    detail=f"product_id '{value}' is not a valid uuid string"
+                )
+            except TypeError:
+                raise ValidationException(
+                    detail=f"product_id is required"
+                )
+        return value
+    
+    def validate(self, attrs: dict):
+        self.product_id = self.validate_product_id(
+            value=attrs.get("product_id")
+        )
+        return self
 
 
 class PaginatedRequestSerializer(Serializer):

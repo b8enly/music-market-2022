@@ -1,9 +1,8 @@
+from users_service.models import Favorites, Cart, User
 from users_service.exceptions.mappers import (
-    FavoriteMapperCreateException,
     UserMapperUpdateException,
+    MapperCreateException,
 )
-from users_service.models import Favorites
-from users_service.models import User
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.utils import IntegrityError
@@ -18,7 +17,7 @@ class FavoritesMapper:
         try:
             Favorites(user_id=user_id, product_id=product_id).save()
         except IntegrityError as e:
-            raise FavoriteMapperCreateException(e.args)
+            raise MapperCreateException(e.args)
 
     @staticmethod
     def get_by_user_id_and_product_id(
@@ -36,10 +35,11 @@ class FavoritesMapper:
 
     @staticmethod
     def delete(user_id: UUID, product_id: UUID) -> None:
-        favorite_item = FavoritesMapper.get_by_user_id_and_product_id(
+        FavoritesMapper.get_by_user_id_and_product_id(
             user_id=user_id,
             product_id=product_id
         ).delete()
+
 
 class UsersMapper:
     @staticmethod
@@ -64,3 +64,32 @@ class UsersMapper:
         except (ObjectDoesNotExist, ValueError) as e:
             raise UserMapperUpdateException(e.args)
 
+
+class CartMapper:
+    @staticmethod
+    def create(user_id: UUID, product_id: UUID) -> None:
+        try:
+            Cart(user_id=user_id, product_id=product_id).save()
+        except IntegrityError as e:
+            raise MapperCreateException(e.args)
+
+    @staticmethod
+    def get_by_user_id_and_product_id(
+        user_id: UUID, 
+        product_id: UUID
+    ) -> Cart:
+        try: 
+            return Cart.objects.get(user_id=user_id, product_id=product_id)
+        except ObjectDoesNotExist:
+            return None
+    
+    @staticmethod
+    def find_by_user_id(user_id: UUID) -> QuerySet[Cart]:
+        return Cart.objects.filter(user_id=user_id)
+
+    @staticmethod
+    def delete(user_id: UUID, product_id: UUID) -> None:
+        CartMapper.get_by_user_id_and_product_id(
+            user_id=user_id,
+            product_id=product_id
+        ).delete()
