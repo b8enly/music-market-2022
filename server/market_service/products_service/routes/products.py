@@ -1,7 +1,11 @@
+from products_service.views.public.products.mutations import (
+    favorites_mutations
+)
 from products_service.views.public.products.details import (
     category_type_products,
     brand_type_products,
     category_products,
+    favorite_products,
     brand_products,
     product_detail,
 )
@@ -28,5 +32,13 @@ urlpatterns = [
     path(
         route="<uuid:product_id>",
         view=product_detail
-    )
+    ),
+    path(
+        route="favorites",
+        view=favorite_products
+    ),
+    path(
+        route="<uuid:product_id>/favorite",
+        view=favorites_mutations
+    ),
 ]

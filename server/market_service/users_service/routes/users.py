@@ -1,3 +1,4 @@
+from users_service.views.internal.users.details import get_user_info
 from users_service.views.public.users.details import detail
 from users_service.views.public.users.mutations import (
     sign_out,
@@ -9,8 +10,25 @@ from django.urls import path
 
 
 urlpatterns = [
-    path("sign_up", sign_up),
-    path("sign_in", sign_in),
-    path("sign_out", sign_out),
-    path("me", detail),
+    path(
+        route="sign_up", 
+        view=sign_up
+    ),
+    path(
+        route="sign_in", 
+        view=sign_in
+    ),
+    path(
+        route="sign_out", 
+        view=sign_out
+    ),
+    path(
+        route="me", 
+        view=detail
+    ),
+
+    path(
+        route="internal/me",
+        view=get_user_info
+    )
 ]

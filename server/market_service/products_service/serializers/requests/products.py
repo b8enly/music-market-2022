@@ -70,7 +70,7 @@ class BrandTypeProductsRequestSerializer(BrandProductsRequestSerializer):
         return super().validate(attrs)
 
 
-class ProductDetailRequest(Serializer):
+class ProductDetailRequestSerializer(Serializer):
     product_id = UUIDField()
 
     def validate_product_id(self, id: UUID) -> UUID:
@@ -81,3 +81,11 @@ class ProductDetailRequest(Serializer):
     def validate(self, attrs: dict):
         self.product_id = self.validate_product_id(id=attrs.get("product_id"))
         return self
+
+
+class FavoriteProductsRequestSerializer(PaginatedRequestSerializer):
+    pass
+
+
+class ProductAddToFavoriteRequestSerializer(ProductDetailRequestSerializer):
+    pass
