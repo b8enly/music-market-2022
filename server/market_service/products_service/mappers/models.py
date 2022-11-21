@@ -73,6 +73,10 @@ class ProductMapper:
     ) -> QuerySet:
         return Product.objects.filter(brand_id=brand_id, type_id=type_id)
 
+    @staticmethod
+    def find_by_ids(ids: list[UUID]) -> QuerySet:
+        return Product.objects.filter(id__in=ids)
+
 
 class TypeMapper:
     @staticmethod

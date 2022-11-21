@@ -73,3 +73,12 @@ class BrandTypeProductsResponseSerializer(BrandProductsResponseSerializer):
 class ProductDetailResponseSerializer(ProductDetailSerializer):
     def __init__(self, instance=None, data=..., **kwargs):
         super().__init__(instance, data, **kwargs)
+
+
+class FavoriteProductsResponseSerializer(PaginatedResponseSerializer):
+    def __init__(self, paginator: DjangoPaginator, page_number: int):
+        super().__init__(paginator, page_number)
+        self._data["results"] = ProductSerializer(
+            instance=self.page.object_list,
+            many=True
+        ).data
