@@ -5,6 +5,7 @@ import CheckoutPage from "@/pages/Checkout/CheckoutPage";
 import ShoppingCart from "@/pages/Cart/ShoppingCart";
 import CatalogPage from "@/pages/Catalog/CatalogPage";
 import ProductPage from "@/pages/Product/ProductPage";
+import ProfilePage from "@/pages/Profile/ProfilePage";
 import SignupPage from "@/pages/Signup/SignupPage";
 
 
@@ -37,6 +38,11 @@ const routes = [
     name: 'product',
     component: ProductPage,
     props: true
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: ProfilePage,
   },
   {
     path: '/sign_up',

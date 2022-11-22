@@ -4,7 +4,7 @@
     <div class="checkout__block">
       <div class="checkout__first-column">
         <section class="checkout__information information">
-          <h4 class="information__title">1. Информация о получателе</h4>
+          <h3 class="information__title">1. Информация о получателе</h3>
           <form class="information__forms form" id="form">
             <div class="form__name">
               <label class="form__label" for="name">Имя</label>
@@ -39,7 +39,7 @@
           </form>
         </section>
         <section class="checkout__address address">
-          <h4 class="address__title">2. Адрес получателя</h4>
+          <h3 class="address__title">2. Адрес получателя</h3>
           <form class="address__forms form" id="addform">
             <div class="form__first-row">
               <div class="form__region">
@@ -98,7 +98,7 @@
           </form>
         </section>
         <section class="checkout__confirmation confirmation">
-          <h4 class="confirmation__title">3. Подтверждение заказа</h4>
+          <h3 class="confirmation__title">3. Подтверждение заказа</h3>
           <div class="confirmation__row">
             <div class="confirmation__pos">
               <input type="radio" name="option_conf" value="positive" id="positive" checked/>
@@ -111,7 +111,7 @@
           </div>
         </section>
         <section class="checkout__payment payment">
-          <h4 class="payment__title">4. Способ оплаты</h4>
+          <h3 class="payment__title">4. Способ оплаты</h3>
           <div class="payment__first_row">
             <fieldset class="payment__field">
               <input type="radio" name="option_payment" value="first" id="first" checked/>
@@ -122,19 +122,19 @@
               <label for="second">Наличными при получении</label>
             </fieldset>
           </div>
-<!--          <div class="payment__second-row">-->
-<!--            <fieldset class="payment__field">-->
-<!--              <input type="radio" name="option_payment" value="third" id="third"/>-->
-<!--              <label for="third">Система быстрых платежей</label>-->
-<!--            </fieldset>-->
-<!--            <fieldset class="payment__field">-->
-<!--              <input type="radio" name="option_payment" value="fourth" id="fourth"/>-->
-<!--              <label for="fourth">Наличными при получении</label>-->
-<!--            </fieldset>-->
-<!--          </div>-->
+          <!--          <div class="payment__second-row">-->
+          <!--            <fieldset class="payment__field">-->
+          <!--              <input type="radio" name="option_payment" value="third" id="third"/>-->
+          <!--              <label for="third">Система быстрых платежей</label>-->
+          <!--            </fieldset>-->
+          <!--            <fieldset class="payment__field">-->
+          <!--              <input type="radio" name="option_payment" value="fourth" id="fourth"/>-->
+          <!--              <label for="fourth">Наличными при получении</label>-->
+          <!--            </fieldset>-->
+          <!--          </div>-->
         </section>
         <section class="checkout__promo promo">
-          <h4 class="promo__title">5. Промокод</h4>
+          <h3 class="promo__title">5. Промокод</h3>
           <p class="promo__subtitle">При наличии секретного кода, введите его ниже</p>
           <div class="promo__row">
             <form class="promo__form" id="promo">
@@ -149,7 +149,7 @@
           </div>
         </section>
         <section class="checkout__final final">
-          <h4 class="final__title">6. Итого</h4>
+          <h3 class="final__title">6. Итого</h3>
           <p class="final__subtitle">Пожалуйста, проверьте свои данные перед отправкой</p>
           <div class="final__block">
             <div class="final__first-row">
@@ -168,9 +168,9 @@
         <div class="checkout__second-container">
           <section class="checkout__summary">
             <h4 class="summary__title">4 позиции <span class="color">в заказе</span></h4>
-            <checkout-item-component />
-            <checkout-item-component />
-            <checkout-item-component />
+            <checkout-item-component/>
+            <checkout-item-component/>
+            <checkout-item-component/>
             <button class="summary__go-back">Вернуться в корзину &#8594;</button>
           </section>
         </div>
@@ -181,6 +181,7 @@
 
 <script>
 import CheckoutItemComponent from "@/components/CheckoutItemComponent";
+
 export default {
   name: "CheckoutPage",
   components: {CheckoutItemComponent}
@@ -493,6 +494,40 @@ export default {
   color: #DFB259;
 }
 
+.information__title {
+  margin-bottom: 3%;
+  margin-top: 2%;
+}
+
+.final__title {
+  margin-bottom: 3%;
+  margin-top: 2%;
+}
+
+.confirmation__title {
+  margin-bottom: 3%;
+  margin-top: 2%;
+}
+
+.address__title {
+  margin-bottom: 3%;
+  margin-top: 2%;
+}
+
+.information__title {
+  margin-bottom: 3%;
+  margin-top: 2%;
+}
+
+.promo__title {
+  margin-bottom: 3%;
+  margin-top: 2%;
+}
+
+.payment__title {
+  margin-bottom: 3%;
+  margin-top: 2%;
+}
 
 
 </style>
