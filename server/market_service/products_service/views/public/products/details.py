@@ -14,6 +14,7 @@ from products_service.serializers.responses.products import (
     FavoriteProductsResponseSerializer,
     BrandProductsResponseSerializer,
     ProductDetailResponseSerializer,
+    CartProductsResponseSerializer,
 )
 from products_service.serializers.requests.products import (
     CategoryTypeProductsRequestSerializer,
@@ -22,6 +23,7 @@ from products_service.serializers.requests.products import (
     FavoriteProductsRequestSerializer,
     BrandProductsRequestSerializer,
     ProductDetailRequestSerializer,
+    CartProductsRequestSerializer,
 )
 from products_service.exceptions.mappers import (
     UsersServiceMapperInternalException
@@ -253,7 +255,6 @@ def favorite_products(request: Request) -> Response:
         raise BadRequestException(detail=e.args)
 
     favorites = ProductMapper.find_by_ids(ids=favorite_ids)
-    print(favorites)
 
     paginator = DjangoPaginator(
         object_list=favorites, 
@@ -270,3 +271,49 @@ def favorite_products(request: Request) -> Response:
     )
 
     return Response(data=response_serialzier.data)
+
+
+@api_view(ALLOWED_METHODS)
+@permission_classes([IsAuthenticated])
+def cart_products(request: Request) -> Response:
+    query_page = request.query_params.get("page")
+    json_page = request.data.get("page")
+    page = json_page if query_page is None else query_page
+
+    query_page_size = request.query_params.get("page_size")
+    json_page_size = request.data.get("page_size")
+    page_size = json_page_size if query_page_size is None else query_page_size
+
+    request_serializer = CartProductsRequestSerializer().validate(attrs={
+        "page": page,
+        "page_size": page_size
+    })
+
+    try:
+        cart_product_ids = UsersServiceMapper \
+            .paginate_cart_products_by_auth_token(
+                token=request.headers.get("Authorization").split()[1],
+                page=request_serializer.page,
+                page_size=request_serializer.page_size
+            ) \
+            .get("results")
+    except UsersServiceMapperInternalException as e:
+        raise BadRequestException(detail=e.args)
+    
+    cart_products = ProductMapper.find_by_ids(ids=cart_product_ids)
+
+    paginator = DjangoPaginator(
+        object_list=cart_products,
+        per_page=request_serializer.page_size
+    )
+    if paginator.num_pages < request_serializer.page:
+        raise ValidationException(
+            detail=f"page number too large, max - {paginator.num_pages}"
+        )
+
+    response_serializer = CartProductsResponseSerializer(
+        paginator=paginator,
+        page_number=request_serializer.page
+    )
+
+    return Response(data=response_serializer.data)

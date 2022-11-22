@@ -1,5 +1,6 @@
 from products_service.views.public.products.mutations import (
-    favorites_mutations
+    favorites_mutations,
+    cart_mutations,
 )
 from products_service.views.public.products.details import (
     category_type_products,
@@ -8,6 +9,7 @@ from products_service.views.public.products.details import (
     favorite_products,
     brand_products,
     product_detail,
+    cart_products,
 )
 
 from django.urls import path
@@ -40,5 +42,13 @@ urlpatterns = [
     path(
         route="<uuid:product_id>/favorite",
         view=favorites_mutations
+    ),
+    path(
+        route="cart",
+        view=cart_products
+    ),
+    path(
+        route="<uuid:product_id>/cart",
+        view=cart_mutations
     ),
 ]

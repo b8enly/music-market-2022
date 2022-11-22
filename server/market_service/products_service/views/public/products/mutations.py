@@ -18,6 +18,32 @@ from uuid import UUID
 @api_view(["POST", "DELETE"])
 @permission_classes([IsAuthenticated])
 def favorites_mutations(request: Request, product_id: UUID) -> Response:
+    def add_to_favorites(token: str) -> Response:
+        try:
+            result = UsersServiceMapper.add_to_favorites(
+                token=token, 
+                product_id=product_id
+            )
+        except UsersServiceMapperInternalException as e:
+            raise BadRequestException(detail=e.args)
+
+        return Response(data={
+            "success": result
+        })
+
+    def delete_from_favorites(token: str) -> Response:
+        try:
+            result = UsersServiceMapper.delete_from_favorites(
+                token=token,
+                product_id=product_id
+            )
+        except UsersServiceMapperInternalException as e:
+            raise BadRequestException(detail=e.args)
+
+        return Response(data={
+            "success": result
+        })
+
     token = request.headers.get("Authorization").split()[1]
 
     request_serializer = ProductAddToFavoriteRequestSerializer().validate(
@@ -38,26 +64,28 @@ def favorites_mutations(request: Request, product_id: UUID) -> Response:
         )
 
 
-def add_to_favorites(token: str, product_id: UUID) -> Response:
-    try:
-        result = UsersServiceMapper.add_to_favorites(
+@api_view(["POST", "DELETE"])
+@permission_classes([IsAuthenticated])
+def cart_mutations(request: Request, product_id: UUID) -> Response:
+    def add_to_cart(token: str) -> bool:
+        return UsersServiceMapper.add_to_cart(
             token=token, 
             product_id=product_id
         )
-    except UsersServiceMapperInternalException as e:
-        raise BadRequestException(detail=e.args)
-
-    return Response(data={
-        "success": result
-    })
-
-
-def delete_from_favorites(token: str, product_id: UUID) -> Response:
-    try:
-        result = UsersServiceMapper.delete_from_favorites(
+    
+    def delete_from_cart(token: str) -> bool:
+        return UsersServiceMapper.delete_from_cart(
             token=token,
             product_id=product_id
         )
+
+    try:
+        token = request.headers.get("Authorization").split()[1]
+
+        if request.method == "POST":
+            result = add_to_cart(token=token)
+        if request.method == "DELETE":
+            result = delete_from_cart(token=token)
     except UsersServiceMapperInternalException as e:
         raise BadRequestException(detail=e.args)
     
