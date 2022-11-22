@@ -82,3 +82,8 @@ class FavoriteProductsResponseSerializer(PaginatedResponseSerializer):
             instance=self.page.object_list,
             many=True
         ).data
+
+
+class CartProductsResponseSerializer(FavoriteProductsResponseSerializer):
+    def __init__(self, paginator: DjangoPaginator, page_number: int):
+        super().__init__(paginator, page_number)
