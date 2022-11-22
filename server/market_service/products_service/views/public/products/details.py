@@ -297,12 +297,10 @@ def cart_products(request: Request) -> Response:
                 page_size=request_serializer.page_size
             ) \
             .get("results")
-        print(cart_product_ids)
     except UsersServiceMapperInternalException as e:
         raise BadRequestException(detail=e.args)
     
     cart_products = ProductMapper.find_by_ids(ids=cart_product_ids)
-    print(cart_products)
 
     paginator = DjangoPaginator(
         object_list=cart_products,
