@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import MainPage from "@/pages/Main/MainPage";
+import CheckoutPage from "@/pages/Checkout/CheckoutPage";
 import ShoppingCart from "@/pages/Cart/ShoppingCart";
 import CatalogPage from "@/pages/Catalog/CatalogPage";
 import ProductPage from "@/pages/Product/ProductPage";
 import SignupPage from "@/pages/Signup/SignupPage";
+
 
 Vue.use(VueRouter)
 
@@ -13,6 +15,11 @@ const routes = [
     path: '/',
     name: 'home',
     component: MainPage
+  },
+  {
+    path: '/checkout',
+    name: 'checkout',
+    component: CheckoutPage
   },
   {
     path: '/cart',
@@ -37,7 +44,6 @@ const routes = [
     component: SignupPage,
     props: true
   }
-
 ]
 
 const router = new VueRouter({

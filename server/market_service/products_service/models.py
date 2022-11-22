@@ -12,11 +12,6 @@ class Category(models.Model):
 
 class Type(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    category = models.ForeignKey(
-        to=Category, 
-        to_field="id", 
-        on_delete=models.CASCADE
-    )
     name = models.TextField(max_length=30, null=False)
 
     def __str__(self) -> str:

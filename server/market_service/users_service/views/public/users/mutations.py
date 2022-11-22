@@ -2,20 +2,19 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.request import Request
 
-from users_service.exceptions.mappers.djoser_mapper_exceptions import (
+from users_service.exceptions.mappers import (
     DjoserMapperSignOutException,
     DjoserMapperRegistrException,
     DjoserMapperSignInException,
 )
-from users_service.exceptions.mappers.user_mapper_exceptions import (
+from users_service.exceptions.mappers import (
     UserMapperUpdateException
 )
-from users_service.mappers.services.djoser_mapper import DjoserMapper
-from users_service.mappers.models.users_mapper import UsersMapper
-from users_service.serializers import UserModelSerializer
+from users_service.serializers.responses.users import UserModelSerializer
+from users_service.mappers.services import DjoserMapper
+from users_service.mappers.models import UsersMapper
 
 from django.core.exceptions import ObjectDoesNotExist
-from uuid import UUID
 
 
 @api_view(["POST"])
@@ -83,7 +82,7 @@ def sign_in(request: Request) -> Response:
 
 
 @api_view(["GET"])
-def sign_out(request: Request, user_id: UUID) -> Response:
+def sign_out(request: Request) -> Response:
     try:
         return Response(data={
             "success": DjoserMapper.sign_out(
@@ -93,7 +92,7 @@ def sign_out(request: Request, user_id: UUID) -> Response:
     except DjoserMapperSignOutException as e:
         return Response(
             data={
-                "error": f"failed sign out for user {user_id}",
+                "error": f"failed sign out",
                 "details": e.args
             },
             status=400
