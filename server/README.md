@@ -1,7 +1,6 @@
 # Руководство по работе с бэком
 
-## Запуск бэка
----
+## Подготовка бэка
 
 ### 1. Перейдите в директорию server
 
@@ -10,7 +9,18 @@
 .\venv\Scripts\activate
 ```
 
-### 3. Запустите сервер
+### 3. Установите свежие зависимости
+```bash
+python -m pip install -r requirements.txt
+```
+
+### 4. Накатите свежие миграции
+```bash
+python market_service/manage.py makemigrations
+python market_service/manage.py migrate
+```
+
+### 5. Запустите сервер
 ```bash
 python market_service/manage.py runserver
 ```
@@ -18,7 +28,6 @@ python market_service/manage.py runserver
 ---
 
 ## Работа с админкой
----
 
 ### 1. Перейдите в директорию *server/market_service*
 
@@ -39,3 +48,6 @@ python manage.py runserver
 **password**: admin12345
 
 ---
+
+## Тест бэка
+https://documenter.getpostman.com/view/23531961/2s83S2DZU5

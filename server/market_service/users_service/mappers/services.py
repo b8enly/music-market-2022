@@ -1,6 +1,6 @@
 import requests
 
-from users_service.exceptions.mappers.djoser_mapper_exceptions import (
+from users_service.exceptions.mappers import (
     DjoserMapperGetInfoException,
     DjoserMapperSignOutException,
     DjoserMapperRegistrException,

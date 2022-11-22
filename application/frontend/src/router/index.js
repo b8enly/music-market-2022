@@ -6,6 +6,8 @@ import ShoppingCart from "@/pages/Cart/ShoppingCart";
 import CatalogPage from "@/pages/Catalog/CatalogPage";
 import ProductPage from "@/pages/Product/ProductPage";
 import ProfilePage from "@/pages/Profile/ProfilePage";
+import SignupPage from "@/pages/Signup/SignupPage";
+
 
 Vue.use(VueRouter)
 
@@ -36,12 +38,17 @@ const routes = [
     name: 'product',
     component: ProductPage,
     props: true
-
   },
   {
     path: '/profile',
     name: 'profile',
     component: ProfilePage,
+  },
+  {
+    path: '/sign_up',
+    name: 'sign_up',
+    component: SignupPage,
+    props: true
   }
 ]
 
