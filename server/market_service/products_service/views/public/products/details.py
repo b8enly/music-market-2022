@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.request import Request
 
 from products_service.exceptions.service import ValidationException
-from products_service.exceptions.service import InternalException
+from products_service.exceptions.service import BadRequestException
 from products_service.mappers.services import UsersServiceMapper
 from products_service.serializers.responses.products import (
     CategoryTypeProductsResponseSerializer,
@@ -250,7 +250,7 @@ def favorite_products(request: Request) -> Response:
             page_size=request_serializer.page_size
         ).get("results")
     except UsersServiceMapperInternalException as e:
-        raise InternalException(detail=e.args)
+        raise BadRequestException(detail=e.args)
 
     favorites = ProductMapper.find_by_ids(ids=favorite_ids)
     print(favorites)

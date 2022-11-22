@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.request import Request
 
-from products_service.exceptions.service import InternalException
+from products_service.exceptions.service import BadRequestException
 from products_service.mappers.services import UsersServiceMapper
 from products_service.serializers.requests.products import (
     ProductAddToFavoriteRequestSerializer
@@ -45,7 +45,7 @@ def add_to_favorites(token: str, product_id: UUID) -> Response:
             product_id=product_id
         )
     except UsersServiceMapperInternalException as e:
-        raise InternalException(detail=e.args)
+        raise BadRequestException(detail=e.args)
 
     return Response(data={
         "success": result
@@ -59,7 +59,7 @@ def delete_from_favorites(token: str, product_id: UUID) -> Response:
             product_id=product_id
         )
     except UsersServiceMapperInternalException as e:
-        raise InternalException(detail=e.args)
+        raise BadRequestException(detail=e.args)
     
     return Response(data={
         "success": result
