@@ -5,6 +5,7 @@ import CheckoutPage from "@/pages/Checkout/CheckoutPage";
 import ShoppingCart from "@/pages/Cart/ShoppingCart";
 import CatalogPage from "@/pages/Catalog/CatalogPage";
 import ProductPage from "@/pages/Product/ProductPage";
+import ProfilePage from "@/pages/Profile/ProfilePage";
 
 Vue.use(VueRouter)
 
@@ -36,6 +37,11 @@ const routes = [
     component: ProductPage,
     props: true
 
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: ProfilePage,
   }
 ]
 
