@@ -7,6 +7,7 @@ import CatalogPage from "@/pages/Catalog/CatalogPage";
 import ProductPage from "@/pages/Product/ProductPage";
 import ProfilePage from "@/pages/Profile/ProfilePage";
 import SignupPage from "@/pages/Signup/SignupPage";
+import SigninPage from "@/pages/Signin/SigninPage";
 
 
 Vue.use(VueRouter)
@@ -45,9 +46,15 @@ const routes = [
     component: ProfilePage,
   },
   {
-    path: '/sign_up',
+    path: '/users/sign_up',
     name: 'sign_up',
     component: SignupPage,
+    props: true
+  },
+  {
+    path: '/users/sign_in',
+    name: 'sign_in',
+    component: SigninPage,
     props: true
   }
 ]

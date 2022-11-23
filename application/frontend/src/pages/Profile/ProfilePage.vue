@@ -11,7 +11,7 @@
         </section>
       </div>
       <div class="profile__second-column">
-        <personal-data-item v-if="value === 1"/>
+        <personal-data-item v-if="value === 1" v-bind:user="this.user"/>
         <address-data-item v-if="value === 1"/>
         <favourites-page-item v-else-if="value === 2"/>
         <order-history v-else-if="value === 3"/>
@@ -25,12 +25,14 @@ import PersonalDataItem from "@/pages/Profile/components/PersonalDataItem";
 import AddressDataItem from "@/pages/Profile/components/AddressDataItem";
 import FavouritesPageItem from "@/pages/Profile/components/FavouritesPageItem";
 import OrderHistory from "@/pages/Profile/components/OrderHistory";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "ProfilePage",
   components: {OrderHistory, FavouritesPageItem, AddressDataItem, PersonalDataItem},
   data: () => ({
     value: 1,
+    user: null
   }),
   methods:
       {
@@ -43,7 +45,20 @@ export default {
         onOrder() {
           this.value = 3;
         },
-      }
+        ...mapActions (['REQUEST_USER']),
+      },
+  mounted() {
+  },
+  computed: {
+    ...mapGetters([
+      'USER',
+    ]),
+  },
+  created() {
+    this.REQUEST_USER().then(()=>{
+      return this.user = this.USER
+    })
+  }
 }
 </script>
 
