@@ -127,7 +127,7 @@ export default {
           ).then((response) => {
                 // успешно получен ответ сервера на запрос
                 console.log('Ответ сервера', response);
-                this.$router.push({name: 'home'});
+                this.$router.push({name: 'sign_in'});
               },
               (error) => {
                 // Ошибка при осуществлении запроса
@@ -180,9 +180,11 @@ export default {
   flex-direction: column;
   background-color: #FFFFFF;
   border-radius: 20px;
-  max-width: 380px;
+  max-width: 410px;
   padding: 30px 46px 46px 46px;
   margin-bottom: 100px;
+  box-sizing: border-box;
+  min-width: 380px;
 }
 .signup__form-title{
   font-weight: 500;

@@ -26,7 +26,7 @@
           <p class="forth__finals">Итого</p>
           <p class="forth__cost">39 700 ₽</p>
         </div>
-        <button class="order__processing">Перейти к оформлению</button>
+        <router-link :to="{name: 'checkout'}"><button class="order__processing">Перейти к оформлению</button></router-link>
       </section>
       <section class="card__additional additional">
         <p class="additional__title">Дополнительные сведения</p>
@@ -155,6 +155,7 @@ export default {
   color: #FFFFFF;
   padding: 3%;
   font-size: 16px;
+  cursor: pointer;
   /*  тоже не очень с margin-left*/
 }
 

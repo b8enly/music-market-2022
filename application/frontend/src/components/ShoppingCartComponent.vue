@@ -11,7 +11,7 @@
     </section>
     <section class="card__second-block second">
       <button class="second__button" id="minus" @click="minusItem" >-</button>
-      <p class="second__amount" id="count"> {{ $store.state.count }}</p>
+      <p class="second__amount" id="count"> {{ $store.state.main.count }}</p>
       <button class="second__button" id="plus" @click="plusItem">+</button>
     </section>
     <section class="card__third-block third">
@@ -24,16 +24,19 @@
 <script>
 export default {
   name: "ShoppingCartComponent",
-  data () {
+  data() {
+    return {
+
+    }
   },
   methods: {
     minusItem() {
-      if (this.$store.state.count > 1) {
-        this.$store.state.count--;
+      if (this.$store.state.main.count > 1) {
+        this.$store.state.main.count--;
       }
     },
     plusItem() {
-      this.$store.state.count++;
+      this.$store.state.main.count++;
     },
   },
 }
