@@ -42,12 +42,15 @@ export default {
       {
         ...mapActions (['VISIBLE_UPDATE']),
         onInfo() {
+          if(this.value === '1') return
           this.$router.push({query: {value: '1'}})
         },
         onFavs() {
+          if(this.value === '2') return
           this.$router.push({query: {value: '2'}})
         },
         onOrder() {
+          if(this.value === '3') return
           this.$router.push({query: {value: '3'}})
         },
         ...mapActions (['REQUEST_USER', 'LOGOUT_USER']),
