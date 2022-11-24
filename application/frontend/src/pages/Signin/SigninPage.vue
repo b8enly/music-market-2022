@@ -38,7 +38,8 @@
             <p>Главное достоинство нашего товара не дизайн, а качество, поэтому
               предпочтение отдадим маркам, пользующимся популярностью уже много лет.</p>
             <p>Если вы давно мечтале о гитаре, которая будет играть долго — найдите ее здесь.</p>
-            <input class="signin__form-btn" type="submit" value="Зарегистрироваться">
+            <input class="signin__form-btn" type="submit" value="Зарегистрироваться" @click="()=>{
+              return this.$router.push({name: 'sign_up'})}">
           </div>
           <div class="signin__signup-col col-img">
               <img class="signin__signup-img" :src="require('../../assets/img/groupGuitar.png')" alt="img"/>
@@ -72,8 +73,10 @@ export default {
         password: this.password
       }
       await this.REQUEST_TOKEN(user)
-      if(this.TOKEN !== null){
-        await this.$router.push({name: 'profile'})
+      if(this.TOKEN){
+        await this.$router.push({name: 'profile', query: {value: '1'}})
+      }else {
+        this.error = this.ERROR
       }
     }
   },
@@ -83,9 +86,7 @@ export default {
       'TOKEN'
     ]),
   },
-  mounted() {
-    this.error = this.ERROR
-  }
+
 }
 </script>
 

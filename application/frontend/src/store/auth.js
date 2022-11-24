@@ -1,11 +1,12 @@
 import axios from "../config/updateAxios";
-
+import Cookies from 'js-cookie';
 
 export default {
     state:()=>({
         token: null,
         error: null,
-        user: null
+        user: null,
+        visible: null
     }),
 
     actions:{
@@ -16,7 +17,9 @@ export default {
             })
                 .then((response) => {
                     // console.log(response.data, response.status)
+                    Cookies.set('token', response.data.token)
                     commit('SET_TOKEN', response.data.token)
+
                 })
                 .catch((error) => {
                     console.error(error);
@@ -31,6 +34,21 @@ export default {
                 .catch((error) => {
                     console.error(error);
                 });
+        },
+        LOGOUT_USER({commit}){
+            return axios.get("http://127.0.0.1:8000/api/users/sign_out", {})
+                .then((response) => {
+                    commit('RESET_STATE', response.data)
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
+        TOKEN_UPDATE({commit}){
+            commit('SET_TOKEN',  Cookies.get('token') ?  Cookies.get('token') : null)
+        },
+        VISIBLE_UPDATE({commit}, boolean){
+            commit('SET_VISIBLE', boolean)
         }
     },
     mutations: {
@@ -42,6 +60,14 @@ export default {
         },
         SET_USER: (state, user)=>{
             state.user = user
+        },
+        RESET_STATE: (state)=>{
+            Cookies.remove('token')
+            state.user = null;
+            state.token = null;
+        },
+        SET_VISIBLE: (state, visible)=>{
+            state.visible = visible
         }
     },
     getters: {
@@ -53,6 +79,13 @@ export default {
         },
         USER(state){
             return state.user
+        },
+        isAuthentication(state){
+            return state.token !== null
+        },
+        VISIBLE(state){
+            return state.visible
         }
     }
+
 }

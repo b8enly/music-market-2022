@@ -46,8 +46,9 @@ export default {
       default() {
         return {}
       }
-    }
+    },
   },
+
 
   name: "PersonalDataItem"
 }
