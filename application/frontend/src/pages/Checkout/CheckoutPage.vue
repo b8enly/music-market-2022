@@ -141,9 +141,8 @@
               <input
                   class="promo__input"
                   type="text"
-                  id="promo"
                   name="promo"
-              />
+              /><!--id="promo"-->
             </form>
             <button class="promo__button">Применить</button>
           </div>
@@ -171,7 +170,7 @@
             <checkout-item-component/>
             <checkout-item-component/>
             <checkout-item-component/>
-            <button class="summary__go-back">Вернуться в корзину &#8594;</button>
+            <router-link :to="{name: 'cart'}"><button class="summary__go-back">Вернуться в корзину &#8594;</button></router-link>
           </section>
         </div>
       </div>

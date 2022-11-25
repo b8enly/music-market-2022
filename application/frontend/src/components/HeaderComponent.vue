@@ -18,8 +18,11 @@
     </div>
 
     <div class="top_header_logotype">
+      <router-link :to="{name: 'home'}">
       <img class="logotype" :src="require('../assets/icon/iconLogo.svg')" height="50" width="167" alt="logo"/>
+      </router-link>
     </div>
+
 
     <div class="top_header_nav">
       <ul class="nav_list">
@@ -56,10 +59,32 @@
     <div class="bottom_header_functional">
       <div class="functional_bag">
         <span class="functional_bag_price" :class="{'hidden': this.price === 0 }"> {{this.price}} ₽</span>
-        <img class="top_header_icon" :src="require('../assets/icon/iconBag.svg')" height="30" width="30" alt="bag"/>
+        <router-link  :to="{ name: 'cart'}">
+          <img class="top_header_icon" :src="require('../assets/icon/iconBag.svg')" height="30" width="30" alt="bag"/>
+        </router-link>
       </div>
+      <router-link  :to="{ name: 'profile', query: {value: '2'}}">
       <img class="top_header_icon" :src="require('../assets/icon/iconHeart.svg')" height="30" width="30" alt="heart"/>
-      <img class="top_header_icon" :src="require('../assets/icon/iconUser.svg')" height="30" width="30" alt="user"/>
+      </router-link>
+<!--      <router-link v-if="!this.isAuthentication" :to="{ name: 'profile', query: {value: '1'}}">-->
+<!--        <img class="top_header_icon" :src="require('../assets/icon/iconUser.svg')" height="30" width="30" alt="user"/>-->
+<!--      </router-link>-->
+      <img  class="top_header_icon" :src="require('../assets/icon/iconUser.svg')"
+           @click="updateVisible()"
+           height="30" width="30" alt="user"/>
+
+      <div class="header_dropdown_part " v-show="this.VISIBLE"></div>
+      <div v-if="!this.isAuthentication" class="header_dropdown" v-show="this.VISIBLE">
+        <router-link class="header_dropdown_elem" :to="{name: 'sign_in'}">Вход</router-link>
+        <router-link class="header_dropdown_elem" :to="{name: 'sign_up'}">Регистрация</router-link>
+
+      </div>
+      <div v-else-if="this.isAuthentication" class="header_dropdown" v-show="this.VISIBLE">
+        <router-link class="header_dropdown_elem" :to="{name: 'profile', query: {value: '1'}}">Мои данные</router-link>
+        <router-link class="header_dropdown_elem" :to="{name: 'profile', query: {value: '2'}}">Избранное</router-link>
+        <router-link class="header_dropdown_elem" :to="{name: 'profile', query: {value: '3'}}">Мои заказы</router-link>
+        <button class="header_dropdown_elem" @click="logout">Выйти</button>
+      </div>
     </div>
 <!--    <img class="top_header_icon top_header_menu" :src="require('../assets/icon/iconMenu.svg')" height="30px" width="30px" alt="menu"/>-->
   </div>
@@ -68,35 +93,66 @@
 </template>
 
 <script>
+
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   name: "HeaderComponent",
   data() {
     return {
       price: 15550,
-      a: null, b: null
+      a: null, b: null,
+      visible: false,
     }
   },
   methods: {
+    updateVisible(){
+      this.visible = !this.visible
+      this.VISIBLE_UPDATE(this.visible)
+    },
     Sticky: function () {
       this.b = document.querySelector('.top_header');
       this.a = document.querySelector('.bottom_header');
       if(this.b.getBoundingClientRect().top >= -70)
       {
         this.a.classList.remove('sticky');
+        document.querySelector('.header_dropdown').style.top = "177px";
+        document.querySelector('.header_dropdown_part').style.top = "170px";
       }
       else if (this.a.getBoundingClientRect().top <= 0) { // elem.getBoundingClientRect() возвращает в px координаты элемента относительно верхнего левого угла области просмотра окна браузера
         this.a.classList.add('sticky');
+        document.querySelector('.header_dropdown').style.top = "83px";
+        document.querySelector('.header_dropdown_part').style.top = "76px";
       }
     },
+    ...mapActions([
+      'TOKEN_UPDATE',
+      'VISIBLE_UPDATE',
+       'LOGOUT_USER'
+    ]),
+    async logout(){
+      await this.VISIBLE_UPDATE(false)
+      await this.LOGOUT_USER()
+      await this.$router.push({name: 'home'})
+    },
   },
+
+  computed: {
+    ...mapGetters([
+      'isAuthentication',
+       'VISIBLE'
+    ]),
+  },
+
   created: function (){
+    this.TOKEN_UPDATE()
     window.addEventListener('scroll', this.Sticky, false);
     document.body.addEventListener('scroll', this.Sticky, false);  // если у html и body высота равна 100%
   },
   destroyed: function () {
     window.addEventListener('scroll', this.Sticky, false);
     document.body.addEventListener('scroll', this.Sticky, false);  // если у html и body высота равна 100%
-  }
+  },
 }
 </script>
 
@@ -294,7 +350,39 @@ export default {
   align-items: center;
   width: 50%;
 }
+.header_dropdown{
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: white;
+  top: 177px;
+  right: 89px;
+  z-index: 1001;
+  border-radius: 18px;
+}
+.header_dropdown_part{
+  position: absolute;
+  width: 20px;
+  height: 20px; transform: rotate(45deg);
+  background-color: white;
+  top: 170px;
+  right: 115px;
+  z-index: 1000;
+  border-radius: 5px;
 
+}
+.header_dropdown_elem{
+  font-weight: 400;
+  font-size: 15px;
+  color: #1D1D1D;
+  border: none;
+  background-color: transparent;
+  text-decoration: none;
+  text-align: left;
+  padding: 5px 10px;
+  cursor: pointer;
+}
 
 /*Медиа запросы*/
 /*@media screen and (max-width: 850px) {*/

@@ -28,13 +28,17 @@
       <input class="signup__form-input" type="text" v-model="patronymic" name="patronymic" placeholder="Отчество" id="patronymic">
       <label class="signup__form-label" for="email">Email</label>
       <input class="signup__form-input" type="email" v-model="email" name="email" placeholder="Email" id="email" required>
-      <label class="signup__form-label" for="phone">Телефон</label>
-      <input class="signup__form-input" type="text" name="phone" placeholder="Телефон" id="phone">
+
+<!--      <label class="signup__form-label" for="phone">Телефон</label>-->
+<!--      <input class="signup__form-input" type="text" name="phone" placeholder="Телефон" id="phone"> пока нет у бека телефона-->
 
       <label class="signup__form-label" for="password">Пароль</label>
-      <input class="signup__form-input" type="password" v-model="password" name="password" placeholder="Пароль" id="password" required>
+      <input class="signup__form-input" type="password" v-model="password" name="password" placeholder="Пароль" id="password"
+             autocomplete="off" required>
       <label class="signup__form-label" for="password2">Повторите пароль</label>
-      <input class="signup__form-input" type="password" v-model="password2" name="password2" placeholder="Повторите пароль" id="password2" required>
+      <input class="signup__form-input" type="password" v-model="password2" name="password2" placeholder="Повторите пароль"
+             autocomplete="off"
+             id="password2" required>
 
 
       <div class="signup__form-agreements">
@@ -87,6 +91,7 @@
 
 <script>
 import axios from "axios";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "SignupPage",
@@ -105,6 +110,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions (['REQUEST_TOKEN']),
     sendForm(e) {
       e.preventDefault()
       console.log(this.accept)
@@ -127,7 +133,17 @@ export default {
           ).then((response) => {
                 // успешно получен ответ сервера на запрос
                 console.log('Ответ сервера', response);
-                this.$router.push({name: 'home'});
+                // this.$router.push({name: 'sign_in'});
+                let user = {
+                  email: this.email,
+                  password: this.password
+                }
+                this.REQUEST_TOKEN(user)
+                if(this.TOKEN){
+                  this.$router.push({name: 'profile', query: {value: '1'}})
+                }else {
+                  this.error = this.ERROR
+                }
               },
               (error) => {
                 // Ошибка при осуществлении запроса
@@ -142,7 +158,13 @@ export default {
         this.error = {"password": ["password1 is not equal to password2"]}
       }
     }
-  }
+  },
+  computed: {
+    ...mapGetters([
+      'ERROR',
+      'TOKEN'
+    ]),
+  },
 }
 </script>
 
@@ -180,9 +202,11 @@ export default {
   flex-direction: column;
   background-color: #FFFFFF;
   border-radius: 20px;
-  max-width: 380px;
+  max-width: 410px;
   padding: 30px 46px 46px 46px;
   margin-bottom: 100px;
+  box-sizing: border-box;
+  min-width: 380px;
 }
 .signup__form-title{
   font-weight: 500;

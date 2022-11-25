@@ -2,21 +2,21 @@
   <main class="data">
     <div class="data__first-row">
       <h3 class="data__title">Личные данные</h3>
-      <button class="data__button btn-edit">Редактировать</button>
+      <button class="data__button btn-edit" @click="showDataUpdate">Редактировать</button>
     </div>
-    <div class="data__block">
+    <div class="data__block" v-if="user">
       <div class="data__row">
         <p class="data__subtitle-first">
           ФИО:
         </p>
         <p class="data__first-value">
-          Петр Петров Петрович
+          {{ `${user.name ? user.name: '' } ${user.surname ? user.surname: '' } ${user.patronymic ? user.patronymic: ''}` }}
         </p>
         <p class="data__subtitle-second">
           Телефон:
         </p>
         <p class="data__second-value">
-          +7 (999) *** ** 49
+          {{ '-' }} <!--телефон отстуствует в бд, пока прочерк-->
         </p>
       </div>
       <div class="data__row">
@@ -24,21 +24,41 @@
           Email:
         </p>
         <p class="data__first-value">
-          petr************@gmail.com
+<!--          petr************@gmail.com-->
+          {{user.email}}
         </p>
         <p class="data__subtitle-second">
           День рождения:
         </p>
         <p class="data__second-value">
-          19 июня 1995
+          {{ '-' }} <!--Дата рождения? этого нет в бд, пока прочерк-->
         </p>
       </div>
     </div>
+    <PersonalDataUpdate ref="modalData" v-bind:user="this.user"/>
   </main>
 </template>
 
 <script>
+import PersonalDataUpdate from "@/pages/Profile/components/PersonalDataUpdate";
 export default {
+  props:{
+    user: {
+      type: Object,
+      default() {
+        return {}
+      }
+    },
+  },
+  components:{PersonalDataUpdate},
+  methods: {
+    showDataUpdate(){
+      this.$refs.modalData.show = true;
+      // document.querySelector("body").style.overflowY = "hidden";
+    }
+  },
+
+
   name: "PersonalDataItem"
 }
 </script>
@@ -91,6 +111,7 @@ export default {
   margin: 0 3% 3% 0;
   border: 0;
   border-bottom: 2px solid #DFB259;
+  cursor: pointer;
 }
 
 </style>
