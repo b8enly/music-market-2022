@@ -18,8 +18,11 @@
     </div>
 
     <div class="top_header_logotype">
+      <router-link :to="{name: 'home'}">
       <img class="logotype" :src="require('../assets/icon/iconLogo.svg')" height="50" width="167" alt="logo"/>
+      </router-link>
     </div>
+
 
     <div class="top_header_nav">
       <ul class="nav_list">
@@ -63,15 +66,20 @@
       <router-link  :to="{ name: 'profile', query: {value: '2'}}">
       <img class="top_header_icon" :src="require('../assets/icon/iconHeart.svg')" height="30" width="30" alt="heart"/>
       </router-link>
-      <router-link v-if="!this.isAuthentication" :to="{ name: 'profile', query: {value: '1'}}">
-        <img class="top_header_icon" :src="require('../assets/icon/iconUser.svg')" height="30" width="30" alt="user"/>
-      </router-link>
-      <img v-else-if="this.isAuthentication" class="top_header_icon" :src="require('../assets/icon/iconUser.svg')"
+<!--      <router-link v-if="!this.isAuthentication" :to="{ name: 'profile', query: {value: '1'}}">-->
+<!--        <img class="top_header_icon" :src="require('../assets/icon/iconUser.svg')" height="30" width="30" alt="user"/>-->
+<!--      </router-link>-->
+      <img  class="top_header_icon" :src="require('../assets/icon/iconUser.svg')"
            @click="updateVisible()"
            height="30" width="30" alt="user"/>
 
       <div class="header_dropdown_part " v-show="this.VISIBLE"></div>
-      <div class="header_dropdown" v-show="this.VISIBLE">
+      <div v-if="!this.isAuthentication" class="header_dropdown" v-show="this.VISIBLE">
+        <router-link class="header_dropdown_elem" :to="{name: 'sign_in'}">Вход</router-link>
+        <router-link class="header_dropdown_elem" :to="{name: 'sign_up'}">Регистрация</router-link>
+
+      </div>
+      <div v-else-if="this.isAuthentication" class="header_dropdown" v-show="this.VISIBLE">
         <router-link class="header_dropdown_elem" :to="{name: 'profile', query: {value: '1'}}">Мои данные</router-link>
         <router-link class="header_dropdown_elem" :to="{name: 'profile', query: {value: '2'}}">Избранное</router-link>
         <router-link class="header_dropdown_elem" :to="{name: 'profile', query: {value: '3'}}">Мои заказы</router-link>

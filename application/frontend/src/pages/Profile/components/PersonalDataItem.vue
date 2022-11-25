@@ -2,7 +2,7 @@
   <main class="data">
     <div class="data__first-row">
       <h3 class="data__title">Личные данные</h3>
-      <button class="data__button btn-edit">Редактировать</button>
+      <button class="data__button btn-edit" @click="showDataUpdate">Редактировать</button>
     </div>
     <div class="data__block" v-if="user">
       <div class="data__row">
@@ -35,10 +35,12 @@
         </p>
       </div>
     </div>
+    <PersonalDataUpdate ref="modalData" v-bind:user="this.user"/>
   </main>
 </template>
 
 <script>
+import PersonalDataUpdate from "@/pages/Profile/components/PersonalDataUpdate";
 export default {
   props:{
     user: {
@@ -47,6 +49,13 @@ export default {
         return {}
       }
     },
+  },
+  components:{PersonalDataUpdate},
+  methods: {
+    showDataUpdate(){
+      this.$refs.modalData.show = true;
+      // document.querySelector("body").style.overflowY = "hidden";
+    }
   },
 
 
@@ -102,6 +111,7 @@ export default {
   margin: 0 3% 3% 0;
   border: 0;
   border-bottom: 2px solid #DFB259;
+  cursor: pointer;
 }
 
 </style>
