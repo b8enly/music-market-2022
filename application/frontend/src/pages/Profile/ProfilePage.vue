@@ -10,9 +10,9 @@
           <button class="menu__btn" id="exit" @click="logout">Выйти</button>
         </section>
       </div>
-      <div class="profile__second-column">
-        <personal-data-item v-if="this.value === '1'" v-bind:user="this.user"/>
-        <address-data-item v-if="this.value === '1'"/>
+      <div class="profile__second-column" v-if="param">
+        <personal-data-item  v-if="this.value === '1'" v-bind:user="this.user"/>
+        <address-data-item v-if="this.value === '1'" v-bind:user="this.user"/>
         <favourites-page-item v-else-if="this.value === '2'"/>
         <order-history v-else-if="this.value === '3'"/>
       </div>
@@ -29,14 +29,13 @@ import OrderHistory from "@/pages/Profile/components/OrderHistory";
 import {mapActions, mapGetters} from "vuex";
 
 
-
-
 export default {
   name: "ProfilePage",
   components: {OrderHistory, FavouritesPageItem, AddressDataItem, PersonalDataItem},
   data: () => ({
     value: '1',
-    user: null
+    user: null,
+    param: false
   }),
   methods:
       {
@@ -76,6 +75,7 @@ export default {
   created() {
     this.value = this.$route.query.value ? this.$route.query.value : this.value
     this.REQUEST_USER().then(()=>{
+      this.param = true
       return this.user = this.USER
     })
   },
@@ -126,6 +126,7 @@ export default {
   background: none;
   margin: 3%;
   padding: 2%;
+  cursor: pointer;
 }
 
 .menu__btn:hover {

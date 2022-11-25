@@ -9,10 +9,10 @@
         <p class="main__subtitle first-subtitle">
           Мы собрали для вас гитары разного класса, которые объединяет лишь одно — неизменно высокое качество.
         </p>
-        <button class="main__catalog-btn">
+        <a class="main__catalog-btn" href="#catalog">
           <div class="main__background-btn"></div>
           В каталог
-        </button>
+        </a>
         <div class="main__background-block"></div>
       </div>
     </section>
@@ -33,7 +33,7 @@
       <button class="items__show-more">Показать еще</button>
     </section>
     <section class="main__catalog catalog">
-      <h2 class="catalog__title">Каталог</h2>
+      <h2 class="catalog__title" id="catalog">Каталог</h2>
       <!--      Здесь должен быть каталог с картинками-->
       <div class="catalog__container">
         <div class="catalog__first-row">
@@ -254,12 +254,14 @@ export default {
   margin-left: 2%;
   background: linear-gradient(98.73deg, #DFB259 28.23%, #EDB442 85.02%), radial-gradient(106.43% 423.1% at 72.36% 34.29%, rgba(255, 226, 153, 0.5) 0%, rgba(255, 234, 182, 0) 100%);
   border-radius: 23px;
-  width: 270px;
-  height: 65px;
+  /*width: 270px;*/
+  /*height: 65px;*/
   color: #FFFFFF;
   font-size: 25px;
   font-weight: 600;
   z-index: 0;
+  padding: 18px 75px;
+  text-decoration: none;
 }
 
 .main__background-btn {

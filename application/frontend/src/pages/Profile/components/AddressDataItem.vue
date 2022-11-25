@@ -2,7 +2,7 @@
   <main class="data">
     <div class="data__first-row">
       <h3 class="data__title">Адрес доставки</h3>
-      <button class="data__button btn-edit">Редактировать</button>
+      <button class="data__button btn-edit" @click="showAddressUpdate">Редактировать</button>
     </div>
     <div class="data__block">
       <div class="data__row">
@@ -10,13 +10,13 @@
           Регион:
         </p>
         <p class="data__first-value">
-          Московская область
+          {{this.user.address ? this.user.address : '-'}}
         </p>
         <p class="data__subtitle-second">
-          Улица, дом
+          Улица, дом:
         </p>
         <p class="data__second-value">
-          ул. Ленина, 45
+          {{this.user.address ? this.user.address : '-'}}
         </p>
       </div>
       <div class="data__row">
@@ -24,22 +24,49 @@
           Город:
         </p>
         <p class="data__first-value">
-          Москва
+          {{this.user.address ? this.user.address : '-'}}
         </p>
         <p class="data__subtitle-second">
           Квартира:
         </p>
         <p class="data__second-value">
-          45 кв.
+          {{this.user.address ? this.user.address : '-'}}
         </p>
       </div>
     </div>
+    <AddressDataUpdate ref="modalAddress" v-bind:user="this.user"></AddressDataUpdate>
   </main>
 </template>
 
 <script>
+import AddressDataUpdate from "@/pages/Profile/components/AddressDataUpdate";
 export default {
-  name: "AddressDataItem"
+  data() {
+    return {
+    }
+  },
+  props:{
+    user: {
+      type: Object,
+      default() {
+        return {}
+      }
+    },
+  },
+  components:{AddressDataUpdate},
+  name: "AddressDataItem",
+  methods: {
+    showAddressUpdate(){
+        this.$refs.modalAddress.show = true;
+        // document.querySelector("body").style.overflowY = "hidden";
+    }
+  },
+  mounted() {
+
+  },
+  created() {
+
+  }
 }
 </script>
 
@@ -91,6 +118,7 @@ export default {
   margin: 0 3% 3% 0;
   border: 0;
   border-bottom: 2px solid #DFB259;
+  cursor: pointer;
 }
 
 </style>

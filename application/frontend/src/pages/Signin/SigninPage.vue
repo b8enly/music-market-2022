@@ -25,7 +25,9 @@
 
 
         <label class="signin__form-label" for="password">Пароль</label>
-        <input class="signin__form-input" type="password" v-model="password" name="password" placeholder="Пароль" id="password" required>
+        <input class="signin__form-input" type="password" v-model="password" name="password" placeholder="Пароль" id="password"
+               autocomplete="off"
+               required>
 
         <input class="signin__form-btn" type="submit" name="submit" value="Войти">
 
@@ -148,7 +150,6 @@ export default {
   box-sizing: border-box;
   min-height: 40px;
   padding: 10px 20px;
-;
 }
 
 .signin__form-wrongs{
