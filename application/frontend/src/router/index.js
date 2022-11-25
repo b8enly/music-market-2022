@@ -7,8 +7,10 @@ import CatalogPage from "@/pages/Catalog/CatalogPage";
 import ProductPage from "@/pages/Product/ProductPage";
 import ProfilePage from "@/pages/Profile/ProfilePage";
 import SignupPage from "@/pages/Signup/SignupPage";
+import ErrorPage from "@/pages/Error/ErrorPage";
 import SigninPage from "@/pages/Signin/SigninPage";
 import Cookies from "js-cookie";
+
 
 Vue.use(VueRouter)
 
@@ -67,6 +69,12 @@ const routes = [
     path: '/users/sign_up',
     name: 'sign_up',
     component: SignupPage,
+    props: true
+  },
+  {
+    path: '/error',
+    name: 'error',
+    component: ErrorPage,
     props: true,
     meta: {
       public: true
