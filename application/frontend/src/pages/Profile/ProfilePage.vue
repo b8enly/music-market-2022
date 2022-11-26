@@ -13,7 +13,7 @@
       <div class="profile__second-column" v-if="param">
         <personal-data-item  v-if="this.value === '1'" v-bind:user="this.user"/>
         <address-data-item v-if="this.value === '1'" v-bind:user="this.user"/>
-        <favourites-page-item v-else-if="this.value === '2'"/>
+        <favourites-page-item v-else-if="this.value === '2'" v-bind:user="this.user"/>
         <order-history v-else-if="this.value === '3'"/>
       </div>
     </div>

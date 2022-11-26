@@ -7,8 +7,8 @@
           <p class="sort__dropdown-title">
             {{ chosenSort }}
           </p>
-          <img class="dropdown__image" :src="require('@/assets/icon/iconBtnDown2.svg')"/>
-          <ul v-if="show == true" class="dropdown__list is-show">
+          <img class="dropdown__image" :src="require('@/assets/icon/iconBtnDown2.svg')" alt="img"/>
+          <ul v-if="show === true" class="dropdown__list is-show">
             <li v-for="(item, index) in sort" :key="index" class="dropdown__item" @click="chooseSort(index)">
               {{ item }}
             </li>
@@ -28,24 +28,30 @@
         </label>
       </div>
     </div>
-    <div class="favourites__second-row">
-      <catalog-item-component/>
-      <catalog-item-component/>
-      <catalog-item-component/>
-      <catalog-item-component/>
-      <catalog-item-component/>
+    <div class="favourites__second-row" >
+      <catalog-item-component v-for="item in FAVORITES.results" :key="item.id" v-bind:itemCard="item"/>
     </div>
   </main>
 </template>
-
 <script>
 
 import CatalogItemComponent from "@/components/CatalogItemComponent";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "FavouritesPageItem",
   components: {CatalogItemComponent},
+  props:{
+    user: {
+      type: Object,
+      default() {
+        return {}
+      }
+    },
+  },
   data: () => ({
+    page: 1,
+    pageSize: 1,
     show: false,
     sort: [
       "Первая сортировка",
@@ -56,16 +62,24 @@ export default {
     chosenSort: "Выберите сортировку",
   }),
   methods: {
+    ...mapActions(['REQUEST_FAVORITES']),
     showSort(show) {
-      if (show) {
-        this.show = false;
-      } else {
-        this.show = true;
-      }
+      this.show = !show;
     },
     chooseSort(index) {
       this.chosenSort = this.sort[index];
     }
+  },
+  computed:{
+    ...mapGetters(['FAVORITES'])
+  },
+  created() {
+    let parameters = {
+      userId:  this.user.id,
+      page: this.page,
+      pageSize: this.pageSize
+    }
+    this.REQUEST_FAVORITES(parameters)
   }
 }
 </script>
