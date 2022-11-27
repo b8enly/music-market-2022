@@ -25,10 +25,7 @@
       </div>
       <div class="items__products">
         <!--      Здесь должна быть карточка -->
-        <CatalogItemComponent />
-        <CatalogItemComponent />
-        <CatalogItemComponent />
-        <CatalogItemComponent />
+        <CatalogItemComponent v-for="product of products" :key="product.results.id" :product="product" />
       </div>
       <button class="items__show-more">Показать еще</button>
     </section>
@@ -162,14 +159,14 @@
     </section>
     <section class="main__feedback feedback">
       <div class="feedback__first-row">
-      <h2 class="feedback__title">О нас пишут...</h2>
-      <button class="feedback__btn">Смотреть все &#8594;</button>
-      <!--      Здесь должна быть карточка -->
+        <h2 class="feedback__title">О нас пишут...</h2>
+        <button class="feedback__btn">Смотреть все &#8594;</button>
+        <!--      Здесь должна быть карточка -->
       </div>
-      <div  class="feedback__second-row">
-      <ReviewItemComponent />
-      <ReviewItemComponent />
-      <ReviewItemComponent />
+      <div class="feedback__second-row">
+        <ReviewItemComponent/>
+        <ReviewItemComponent/>
+        <ReviewItemComponent/>
       </div>
     </section>
   </main>
@@ -193,6 +190,7 @@ import Ibanez from "../../assets/img/ibanez.png"
 import BackgroundImage from "../../assets/img/backgroundmain.png"
 import CatalogItemComponent from "@/components/CatalogItemComponent";
 import ReviewItemComponent from "@/components/ReviewItemComponent";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "MainPage",
@@ -213,6 +211,23 @@ export default {
     Ibanez: Ibanez,
     BackgroundImage: BackgroundImage,
   }),
+  mounted() {
+    this.LOAD_PRODUCTS_BY_CATEGORY(
+        {
+          categoryId: '81aa7053-002b-4a57-90a1-e05d359f9f89',
+          page: '1',
+          pageSize: '4',
+        }
+    )
+    console.log(this.products);
+  },
+  methods: {
+    ...mapActions(['LOAD_PRODUCTS_BY_CATEGORY'])
+  },
+  computed: {
+    ...mapGetters({products: 'CATEGORY_PRODUCTS',}
+    )
+  }
 };
 </script>
 
@@ -325,7 +340,8 @@ export default {
   color: #DFB259;
   text-decoration-line: underline;
 }
-.items__products{
+
+.items__products {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -333,6 +349,7 @@ export default {
   width: 100%;
   margin: 0 -5px 55px -5px;
 }
+
 .items__show-more {
   width: 300px;
   height: 65px;
@@ -777,12 +794,14 @@ export default {
 .feedback__btn:hover {
   text-decoration-line: underline;
 }
-.feedback__first-row{
+
+.feedback__first-row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-.feedback__second-row{
+
+.feedback__second-row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;

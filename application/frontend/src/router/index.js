@@ -69,7 +69,10 @@ const routes = [
     path: '/users/sign_up',
     name: 'sign_up',
     component: SignupPage,
-    props: true
+    props: true,
+    meta: {
+      public: true
+    }
   },
   {
     path: '/error',
