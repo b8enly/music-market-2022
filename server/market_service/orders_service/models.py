@@ -24,12 +24,12 @@ class DeliveryMethod(models.Model):
 
 
 class ProductSet(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    product_set_id = models.UUIDField(default=uuid4)
     user_id = models.UUIDField(null=False)
     product_id = models.UUIDField(null=False)
 
     class Meta:
-        unique_together = ("id", "user_id", "product_id")
+        unique_together = ("user_id", "product_id")
 
 
 class Order(models.Model):
@@ -37,7 +37,7 @@ class Order(models.Model):
     user_id = user_id = models.UUIDField(null=False)
     product_set = models.ForeignKey(
         to=ProductSet, 
-        to_field="id", 
+        to_field="id",
         on_delete=models.CASCADE
     )
     payment_method = models.ForeignKey(

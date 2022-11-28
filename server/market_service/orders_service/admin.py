@@ -41,7 +41,7 @@ class DeliveryMethodAdmin(ModelAdmin):
 @register(ProductSet)
 class ProductSetAdmin(ModelAdmin):
     list_display = (
-        "id",
+        "product_set_id",
         "user_id",
         "product_id",
     )
