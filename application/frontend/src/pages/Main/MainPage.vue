@@ -25,7 +25,7 @@
       </div>
       <div class="items__products">
         <!--      Здесь должна быть карточка -->
-        <CatalogItemComponent v-for="product of products" :key="product.results.id" :product="product" />
+        <CatalogItemComponent v-for="product of products.results" :key="product.id" :product="product" :category="products.category"/>
       </div>
       <button class="items__show-more">Показать еще</button>
     </section>
@@ -212,14 +212,11 @@ export default {
     BackgroundImage: BackgroundImage,
   }),
   mounted() {
-    this.LOAD_PRODUCTS_BY_CATEGORY(
-        {
-          categoryId: '81aa7053-002b-4a57-90a1-e05d359f9f89',
-          page: '1',
-          pageSize: '4',
-        }
-    )
-    console.log(this.products);
+    this.LOAD_PRODUCTS_BY_CATEGORY({
+      categoryId: '81aa7053-002b-4a57-90a1-e05d359f9f89',
+      page: '1',
+      pageSize: '4',}).then(()=>{
+    })
   },
   methods: {
     ...mapActions(['LOAD_PRODUCTS_BY_CATEGORY'])

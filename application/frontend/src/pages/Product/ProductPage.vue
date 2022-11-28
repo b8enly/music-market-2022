@@ -5,9 +5,7 @@
       <span class="product__path" v-for="(path, index) in paths" :key="index"> {{ path }} /</span>
       <span class="product__path-last"> {{ product.name }} </span>
     </div>
-
     <section class="product__main">
-      <!--    <p>{{$route.params.id}}</p>-->
       <div class="main__block container">
         <div class="main__first-column">
           <!-- через  colorArrow менять цвет стрелки в зависимости от есть ли еще картинки-->
@@ -57,12 +55,12 @@
             <span v-else class="main__status main__status--none">
               нет в наличии
             </span>
+
           </div>
 
           <div class="main__title">{{ product.name }}</div>
           <div class="main__price">
             <span class="main__price-current"> {{ product.price }}&#8381;</span>
-            <!--          <span class="main__price-old"> 22500 ₽ </span>-->
           </div>
           <!--          {{ chars }}-->
           <ul class="main__list" v-if="len > 9">
@@ -167,81 +165,6 @@
                 <span class="main__line-dotted"></span>
                 <span class="main__list-info">{{ characteristic.info }}</span>
               </li>
-              <!--          <li class="main__list-elem">-->
-              <!--            <span class="main__list-title">конфигурация звукоснимателей</span>-->
-              <!--            <span class="main__line-dotted"></span>-->
-              <!--            <span class="main__list-info">Информация</span>-->
-              <!--          </li>-->
-              <!--          <li class="main__list-elem">-->
-              <!--            <span class="main__list-title">форма</span>-->
-              <!--            <span class="main__line-dotted"></span>-->
-              <!--            <span class="main__list-info">Информация</span>-->
-              <!--          </li>-->
-              <!--          <li class="main__list-elem">-->
-              <!--            <span class="main__list-title">тип корпуса</span>-->
-              <!--            <span class="main__line-dotted"></span>-->
-              <!--            <span class="main__list-info">Информация</span>-->
-              <!--          </li>-->
-              <!--          <li class="main__list-elem">-->
-              <!--            <span class="main__list-title">количество струн</span>-->
-              <!--            <span class="main__line-dotted"></span>-->
-              <!--            <span class="main__list-info">Информация</span>-->
-              <!--          </li>-->
-              <!--          <li class="main__list-elem">-->
-              <!--            <span class="main__list-title">верхняя дека </span>-->
-              <!--            <span class="main__line-dotted"></span>-->
-              <!--            <span class="main__list-info">Информация</span>-->
-              <!--          </li>-->
-              <!--          <li class="main__list-elem">-->
-              <!--            <span class="main__list-title">задняя дека и обечайки </span>-->
-              <!--            <span class="main__line-dotted"></span>-->
-              <!--            <span class="main__list-info">Информация</span>-->
-              <!--          </li>-->
-              <!--          <li class="main__list-elem">-->
-              <!--            <span class="main__list-title">материал грифа </span>-->
-              <!--            <span class="main__line-dotted"></span>-->
-              <!--            <span class="main__list-info">Информация</span>-->
-              <!--          </li>-->
-              <!--          <li class="main__list-elem">-->
-              <!--            <span class="main__list-title">накладка</span>-->
-              <!--            <span class="main__line-dotted"></span>-->
-              <!--            <span class="main__list-info">Информация</span>-->
-              <!--          </li>-->
-              <!--          <li class="main__list-elem">-->
-              <!--            <span class="main__list-title">сборка (страна) </span>-->
-              <!--            <span class="main__line-dotted"></span>-->
-              <!--            <span class="main__list-info">Информация</span>-->
-              <!--          </li>-->
-              <!--          <li class="main__list-elem">-->
-              <!--            <span class="main__list-title">ширина грифа </span>-->
-              <!--            <span class="main__line-dotted"></span>-->
-              <!--            <span class="main__list-info">Информация</span>-->
-              <!--          </li>-->
-              <!--          <li class="main__list-elem">-->
-              <!--            <span class="main__list-title">особенности </span>-->
-              <!--            <span class="main__line-dotted"></span>-->
-              <!--            <span class="main__list-info">Информация</span>-->
-              <!--          </li>-->
-              <!--          <li class="main__list-elem">-->
-              <!--            <span class="main__list-title">крепление грифа </span>-->
-              <!--            <span class="main__line-dotted"></span>-->
-              <!--            <span class="main__list-info">Информация</span>-->
-              <!--          </li>-->
-              <!--          <li class="main__list-elem">-->
-              <!--            <span class="main__list-title">мензура</span>-->
-              <!--            <span class="main__line-dotted"></span>-->
-              <!--            <span class="main__list-info">Информация</span>-->
-              <!--          </li>-->
-              <!--          <li class="main__list-elem">-->
-              <!--            <span class="main__list-title">струнодержатель</span>-->
-              <!--            <span class="main__line-dotted"></span>-->
-              <!--            <span class="main__list-info">Информация</span>-->
-              <!--          </li>-->
-              <!--          <li class="main__list-elem">-->
-              <!--            <span class="main__list-title">артикул</span>-->
-              <!--            <span class="main__line-dotted"></span>-->
-              <!--            <span class="main__list-info">Информация</span>-->
-              <!--          </li>-->
             </ul>
           </div>
 
@@ -316,74 +239,29 @@
             </div>
           </div>
         </div>
-
-
-        <!--        <div class="nav__accessory wrapper" v-if="this.currentLink ==='Аксессуары'">-->
-        <!--          <div class="nav__first-column column">-->
-        <!--            <span class="nav__accessory-title recommendation__title">Подборка аксессуаров</span>-->
-        <!--          </div>-->
-
-        <!--          <div class="nav__second-column column">-->
-        <!--            <CatalogItemComponent />-->
-        <!--            <CatalogItemComponent />-->
-        <!--            <CatalogItemComponent />-->
-        <!--             <CatalogItemComponent />-->
-        <!--          </div>-->
-        <!--        </div>-->
-
       </div>
     </section>
-
-    <!--  <div class="product__recommendation wrapper">-->
-    <!--    <div class="recommendation__first-column column">-->
-    <!--      <span class="recommendation__title">Рекомендуем также</span>-->
-    <!--    </div>-->
-
-    <!--    <div class="recommendation__second-column column">-->
-    <!--      <CatalogItemComponent />-->
-    <!--      <CatalogItemComponent />-->
-    <!--      <CatalogItemComponent />-->
-    <!--      <CatalogItemComponent />-->
-    <!--    </div>-->
-    <!--  </div>-->
-
-    <!--  <div class="product__recommendation product-wrapper">-->
-    <!--    <div class="recommendation__first-column column">-->
-    <!--      <span class="recommendation__title">Похожие товары</span>-->
-    <!--    </div>-->
-
-    <!--    <div class="recommendation__second-column column">-->
-    <!--      <CatalogItemComponent />-->
-    <!--      <CatalogItemComponent />-->
-    <!--      <CatalogItemComponent />-->
-    <!--      <CatalogItemComponent />-->
-    <!--    </div>-->
-    <!--  </div>-->
-
-
   </div>
 </template>
 
 <script>
-// import CatalogItemComponent from "@/components/CatalogItemComponent";
 import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "ProductPage",
   data() {
     return {
-      paths: ['Главная', 'Каталог', 'Акустические гитары'],
+      paths: ['Главная', 'Каталог', this.$route.params.category],
       colorArrow: 'iconArrowGrey.svg',
       currentImg: 'imgGuitar.png',
       currentLink: 'Описание',
-      // chars: this.product.characteristics,
     }
   },
   methods: {
     ...mapActions(['LOAD_PRODUCT_BY_ID'])
   },
   mounted() {
-    this.LOAD_PRODUCT_BY_ID(this.$route.params.id)
+    this.LOAD_PRODUCT_BY_ID(this.$route.params.id);
   },
   computed: {
     ...mapGetters({
@@ -391,8 +269,6 @@ export default {
       len: "CHARACTERISTICS_LENGTH"
     })
   },
-  // components:{CatalogItemComponent}
-
 }
 </script>
 

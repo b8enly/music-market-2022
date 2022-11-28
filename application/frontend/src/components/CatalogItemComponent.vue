@@ -1,8 +1,7 @@
 <template>
   <!-- из каталога и главной стр передается пропс на данные о карточке -->
   <router-link class="card__link"
-               :to="{ name: 'product', params: { category: 'acoustic_guitars', id: product.id }}">
-<!--    TODO не забыть поменять id category -->
+               :to="{ name: 'product', params: { category: category.name, id: product.id }}">
     <div class="card">
       <div class="card_header">
         <div class="card_tag">  <!--   тег непонятно кликабедьная ли-->
@@ -24,10 +23,9 @@
         <span class="switch_img"> </span> <!--   переключатели фоток -->
       </div>
       <div class="card_footer">
-        <span class="title_guitar">{{ product.results.name }}</span> <!--   название -->
+        <span class="title_guitar">{{ product.name }}</span> <!--   название -->
         <div class="card_price">
-          <span class="new_price">{{ product.results.price }}&#8381;</span> <!--   новая цена -->
-<!--          <span class="old_price">12500 ₽ </span> &lt;!&ndash;   старая цена &ndash;&gt;-->
+          <span class="new_price">{{ product.price }}&#8381;</span> <!--   новая цена -->
         </div>
       </div>
     </div>
@@ -41,8 +39,8 @@ export default {
   data: () => ({}),
   props: {
     product: Object,
+    category: Object,
   },
-
 }
 </script>
 
