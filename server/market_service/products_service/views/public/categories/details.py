@@ -72,7 +72,7 @@ def categories_paginated(request: Request) -> Response:
 
     response_serializer = CategoriesPaginatedResponseSerializer(
         paginator=paginator,
-        page_number=request_serializer.page_size
+        page_number=request_serializer.page
     )
 
     return Response(data=response_serializer.data)

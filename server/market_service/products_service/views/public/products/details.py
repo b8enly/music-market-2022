@@ -6,16 +6,21 @@ from rest_framework.request import Request
 
 from products_service.exceptions.service import ValidationException
 from products_service.exceptions.service import BadRequestException
-from products_service.mappers.services import UsersServiceMapper
+from products_service.mappers.services import (
+    OrdersServiceMapper,
+    UsersServiceMapper, 
+)
 from products_service.serializers.responses.products import (
     CategoryTypeProductsResponseSerializer,
     BrandTypeProductsResponseSerializer,
+    ProductsPaginatedResponseSerializer,
     CategoryProductsResponseSerializer,
     FavoriteProductsResponseSerializer,
     BrandProductsResponseSerializer,
     ProductDetailResponseSerializer,
 )
 from products_service.serializers.requests.products import (
+    ProductsInOrderPaginatedRequestSerializer,
     CategoryTypeProductsRequestSerializer,
     BrandTypeProductsRequestSerializer,
     CategoryProductsRequestSerializer,
@@ -24,7 +29,8 @@ from products_service.serializers.requests.products import (
     ProductDetailRequestSerializer,
 )
 from products_service.exceptions.mappers import (
-    UsersServiceMapperInternalException
+    UsersServiceMapperInternalException,
+    OrdersServiceMapperInternalExcption,
 )
 from products_service.mappers.models import (
     CategoryMapper,
@@ -244,6 +250,11 @@ def favorite_products(request: Request) -> Response:
     })
 
     try: 
+        response = UsersServiceMapper.paginate_favorites_by_auth_token(
+            token=request.headers.get("Authorization").split()[1],
+            page=request_serializer.page,
+            page_size=request_serializer.page_size
+        )
         favorite_ids = UsersServiceMapper.paginate_favorites_by_auth_token(
             token=request.headers.get("Authorization").split()[1],
             page=request_serializer.page,
@@ -253,11 +264,10 @@ def favorite_products(request: Request) -> Response:
         raise BadRequestException(detail=e.args)
 
     favorites = ProductMapper.find_by_ids(ids=favorite_ids)
-    print(favorites)
 
     paginator = DjangoPaginator(
         object_list=favorites, 
-        per_page=request_serializer.page_size
+        per_page=response.get("page_size")
     )
     if paginator.num_pages < request_serializer.page:
         raise ValidationException(
@@ -266,7 +276,54 @@ def favorite_products(request: Request) -> Response:
 
     response_serialzier = FavoriteProductsResponseSerializer(
         paginator=paginator,
-        page_number=request_serializer.page
+        page_number=DjangoPaginator(favorites, favorites.get("page"))
     )
 
     return Response(data=response_serialzier.data)
+
+
+@api_view(ALLOWED_METHODS)
+@permission_classes([IsAuthenticated])
+def order_products(request: Request, product_set_id: UUID) -> Response:
+    query_page = request.query_params.get("page")
+    json_page = request.data.get("page")
+    page = json_page if query_page is None else query_page
+
+    query_page_size = request.query_params.get("page_size")
+    json_page_size = request.data.get("page_size")
+    page_size = json_page_size if query_page_size is None else query_page_size
+
+    request_serializer = ProductsInOrderPaginatedRequestSerializer().validate(
+        attrs={
+            "page": page,
+            "page_size": page_size
+        }
+    )
+
+    try:
+        product_ids = OrdersServiceMapper.get_product_in_product_set(
+            auth_token=request.headers.get("Authorization").split()[1],
+            product_set_id=product_set_id,
+            page=request_serializer.page,
+            page_sixe=request_serializer.page_size
+        )["results"]
+    except OrdersServiceMapperInternalExcption as e:
+        raise BadRequestException(detail=e.args)
+
+    products = ProductMapper.find_by_ids(ids=product_ids)
+
+    paginator = DjangoPaginator(
+        object_list=products,
+        per_page=request_serializer.page
+    )
+    if paginator.num_pages < request_serializer.page:
+        raise ValidationException(
+            detail=f"page number too large, max - {paginator.num_pages}"
+        )
+
+    response_serializer = ProductsPaginatedResponseSerializer(
+        paginator=paginator,
+        page_number=request_serializer.page
+    )
+
+    return Response(data=response_serializer.data)

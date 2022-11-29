@@ -8,6 +8,7 @@ from products_service.views.public.products.details import (
     favorite_products,
     brand_products,
     product_detail,
+    order_products,
 )
 
 from django.urls import path
@@ -41,4 +42,8 @@ urlpatterns = [
         route="<uuid:product_id>/favorite",
         view=favorites_mutations
     ),
+    path(
+        route="orders/product_set/<uuid:product_set_id>",
+        view=order_products
+    )
 ]

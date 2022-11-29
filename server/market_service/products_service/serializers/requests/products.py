@@ -89,3 +89,7 @@ class FavoriteProductsRequestSerializer(PaginatedRequestSerializer):
 
 class ProductAddToFavoriteRequestSerializer(ProductDetailRequestSerializer):
     pass
+
+
+class ProductsInOrderPaginatedRequestSerializer(PaginatedRequestSerializer):
+    pass

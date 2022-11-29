@@ -17,9 +17,9 @@ class PaginatedResponseSerializer(Serializer):
                 else self.page.previous_page_number()
             ),
             "page_size": self.paginator.per_page,
-            "results": self.paginator.page_range
+            "results": self.page.object_list
         }
-    
+
     @property
     def data(self):
         return self._data

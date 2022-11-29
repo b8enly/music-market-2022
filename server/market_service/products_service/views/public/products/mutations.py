@@ -28,13 +28,11 @@ def favorites_mutations(request: Request, product_id: UUID) -> Response:
 
     if request.method == "POST":
         return add_to_favorites(
-            token=token, 
-            product_id=request_serializer.product_id
+            token=token
         )
     if request.method == "DELETE":
         return delete_from_favorites(
-            token=token, 
-            product_id=request_serializer.product_id
+            token=token
         )
 
 

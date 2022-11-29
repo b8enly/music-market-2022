@@ -16,4 +16,4 @@ class CategoriesPaginatedResponseSerializer(PaginatedResponseSerializer):
         self._data["results"] = CategorySerializer(
             instance=self.page.object_list,
             many=True
-        ).data
+        ).data        
