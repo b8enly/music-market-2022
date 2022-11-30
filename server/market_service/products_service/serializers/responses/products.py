@@ -12,6 +12,9 @@ from products_service.serializers.models import (
 )
 
 from rest_framework.pagination import DjangoPaginator
+from rest_framework.serializers import Serializer
+
+from django.db.models import QuerySet
 
 
 class CategoryProductsResponseSerializer(PaginatedResponseSerializer):
@@ -84,15 +87,58 @@ class ProductDetailResponseSerializer(ProductDetailSerializer):
         super().__init__(instance, data, **kwargs)
 
 
-class FavoriteProductsResponseSerializer(PaginatedResponseSerializer):
-    def __init__(self, paginator: DjangoPaginator, page_number: int):
-        super().__init__(paginator, page_number)
-        self._data["results"] = ProductSerializer(
-            instance=self.page.object_list,
-            many=True
-        ).data
+class FavoriteProductsResponseSerializer(Serializer):
+    def __init__(
+        self, 
+        count: int, 
+        next_page: int, 
+        previous: int, 
+        page_size: int,
+        favorites: QuerySet
+    ) -> None:
+        self._data = {
+            "count": count,
+            "next": next_page,
+            "previous": previous,
+            "page_size": page_size,
+            "favorites": ProductSerializer(instance=favorites, many=True).data
+        }
 
 
-class CartProductsResponseSerializer(FavoriteProductsResponseSerializer):
-    def __init__(self, paginator: DjangoPaginator, page_number: int):
-        super().__init__(paginator, page_number)
+class CartProductsResponseSerializer(Serializer):
+    def __init__(
+        self, 
+        count: int, 
+        next_page: int, 
+        previous: int, 
+        page_size: int, 
+        cart: QuerySet
+    ) -> None:
+        self._data = {
+            "count": count,
+            "next": next_page,
+            "previous": previous,
+            "page_size": page_size,
+            "cart": ProductSerializer(instance=cart, many=True).data
+        }
+
+
+class OrderProductsResponseSerializer(Serializer):
+    def __init__(
+        self,
+        count: int, 
+        next_page: int, 
+        previous: int, 
+        page_size: int, 
+        product_set: QuerySet
+    ) -> None:
+        self._data = {
+            "count": count,
+            "next": next_page,
+            "previous": previous,
+            "page_size": page_size,
+            "product_set": ProductSerializer(
+                instance=product_set, 
+                many=True
+            ).data
+        }
