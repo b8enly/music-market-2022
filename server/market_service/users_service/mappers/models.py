@@ -93,3 +93,7 @@ class CartMapper:
             user_id=user_id,
             product_id=product_id
         ).delete()
+
+    @staticmethod
+    def flush_for_user(user_id: UUID) -> None:
+        Cart.objects.filter(user_id=user_id).delete()

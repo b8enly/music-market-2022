@@ -4,7 +4,7 @@ from uuid import uuid4
 
 
 def gen_big_int():
-    return randint(1_000_000_000, 9_999_999_999)
+    return randint(1_000_000, 9_999_999)
 
 
 class PayMethod(models.Model):
@@ -24,22 +24,18 @@ class DeliveryMethod(models.Model):
 
 
 class ProductSet(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    product_set_id = models.UUIDField(default=uuid4)
     user_id = models.UUIDField(null=False)
     product_id = models.UUIDField(null=False)
 
     class Meta:
-        unique_together = ("id", "user_id", "product_id")
+        unique_together = ("product_set_id", "user_id", "product_id")
 
 
 class Order(models.Model):
     number = models.BigIntegerField(default=gen_big_int, unique=True)
     user_id = user_id = models.UUIDField(null=False)
-    product_set = models.ForeignKey(
-        to=ProductSet, 
-        to_field="id", 
-        on_delete=models.CASCADE
-    )
+    product_set = models.UUIDField(null=False, unique=True)
     payment_method = models.ForeignKey(
         to=PayMethod, 
         to_field="id", 

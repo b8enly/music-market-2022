@@ -26,9 +26,8 @@ urlpatterns = [
         route="me", 
         view=detail
     ),
-
     path(
         route="internal/me",
         view=get_user_info
-    )
+    ),
 ]

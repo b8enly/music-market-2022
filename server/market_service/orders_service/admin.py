@@ -19,6 +19,7 @@ class OrderAdmin(ModelAdmin):
     list_display = (
         "number",
         "user_id",
+        "product_set",
     )
 
     readonly_fields = (
@@ -42,6 +43,7 @@ class DeliveryMethodAdmin(ModelAdmin):
 class ProductSetAdmin(ModelAdmin):
     list_display = (
         "id",
+        "product_set_id",
         "user_id",
         "product_id",
     )

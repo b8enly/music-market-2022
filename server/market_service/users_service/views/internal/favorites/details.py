@@ -39,7 +39,7 @@ def favorites(request: Request) -> Response:
 
     favorites = FavoritesMapper.find_by_user_id(user_id=user_info.get("id"))
     paginator = DjangoPaginator(
-        object_list=favorites, 
+        object_list=list(favorites), 
         per_page=request_serializer.page_size
     )
     if paginator.num_pages < request_serializer.page:
@@ -49,7 +49,21 @@ def favorites(request: Request) -> Response:
     
     response_serializer = FavoritesPaginatedResponseSerializer(
         paginator=paginator,
-        page_number=request_serializer.page_size
+        page_number=request_serializer.page
     )
 
     return Response(data=response_serializer.data)
+
+
+"""
+работает хорошо:
+    brands list
+    category_products
+    brand_products
+    category_type_products
+    brand_type_products
+
+работает плохо:
+    favorites
+    cart
+"""

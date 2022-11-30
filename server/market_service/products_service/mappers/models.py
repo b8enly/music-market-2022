@@ -75,7 +75,11 @@ class ProductMapper:
 
     @staticmethod
     def find_by_ids(ids: list[UUID]) -> QuerySet:
-        return Product.objects.filter(id__in=ids)
+        s = []
+        for i in Product.objects.all():
+            if str(i.id) in ids:
+                s.append(i)
+        return s
 
 
 class TypeMapper:

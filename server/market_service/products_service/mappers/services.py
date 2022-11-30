@@ -1,7 +1,8 @@
 import requests
 
 from products_service.exceptions.mappers import (
-    UsersServiceMapperInternalException
+    UsersServiceMapperInternalException,
+    OrdersServiceMapperInternalExcption,
 )
 from uuid import UUID
 
@@ -120,3 +121,30 @@ class UsersServiceMapper:
             raise UsersServiceMapperInternalException(response.json())
         
         return True
+
+
+class OrdersServiceMapper:
+    BASE_URL = "http://127.0.0.1:8000/api/orders/internal"
+
+    @staticmethod
+    def get_product_in_product_set(
+        auth_token: str, 
+        product_set_id: UUID,
+        page: int,
+        page_sixe: int
+    ) -> dict:
+        response = requests.get(
+            url=f"{OrdersServiceMapper.BASE_URL}/product_set/{product_set_id}",
+            headers={
+                "Authorization": f"Token {auth_token}"
+            },
+            params={
+                "page": page,
+                "page_size": page_sixe
+            }
+        )
+
+        if not response.ok:
+            raise OrdersServiceMapperInternalExcption(response.json())
+        
+        return response.json()

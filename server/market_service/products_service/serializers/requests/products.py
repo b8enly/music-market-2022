@@ -97,3 +97,6 @@ class CartProductsRequestSerializer(PaginatedRequestSerializer):
 
 class ProductAddToCartRequestSerializer(ProductDetailRequestSerializer):
     pass
+
+class ProductsInOrderPaginatedRequestSerializer(PaginatedRequestSerializer):
+    pass

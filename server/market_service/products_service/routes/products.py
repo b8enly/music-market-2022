@@ -9,6 +9,7 @@ from products_service.views.public.products.details import (
     favorite_products,
     brand_products,
     product_detail,
+    order_products,
     cart_products,
 )
 
@@ -51,4 +52,8 @@ urlpatterns = [
         route="<uuid:product_id>/cart",
         view=cart_mutations
     ),
+    path(
+        route="orders/product_set/<uuid:product_set_id>",
+        view=order_products
+    )
 ]

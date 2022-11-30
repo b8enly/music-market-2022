@@ -55,3 +55,16 @@ def delete_from_cart(request: Request) -> Response:
     return Response(data={
         "success": True
     })
+
+
+@api_view(["DELETE"])
+@permission_classes([IsAuthenticated])
+def flush_cart(request: Request) -> Response:
+    token = request.headers.get("Authorization").split()[1]
+    user_info = DjoserMapper.get_me(auth_token=token)
+
+    CartMapper.flush_for_user(user_id=user_info.get("id"))
+
+    return Response(data={
+        "success": True
+    })
