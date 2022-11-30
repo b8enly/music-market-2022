@@ -37,6 +37,10 @@ def favorites(request: Request) -> Response:
         }
     )
 
+    print("pagination")
+    print(request_serializer.page, request_serializer.page_size)
+    print("\n\n")
+
     favorites = FavoritesMapper.find_by_user_id(user_id=user_info.get("id"))
     paginator = DjangoPaginator(
         object_list=list(favorites), 
@@ -46,11 +50,17 @@ def favorites(request: Request) -> Response:
         raise ValidationException(
             detail=f"page number too large, max - {paginator.num_pages}"
         )
+
+    from pprint import pprint
     
     response_serializer = FavoritesPaginatedResponseSerializer(
         paginator=paginator,
         page_number=request_serializer.page
     )
+
+    print("internal")
+    pprint(response_serializer.data)
+    print("\n\n")
 
     return Response(data=response_serializer.data)
 
