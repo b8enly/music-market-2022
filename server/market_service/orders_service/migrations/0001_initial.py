@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
                 ('product_id', models.UUIDField()),
             ],
             options={
-                'unique_together': {('user_id', 'product_id')},
+                'unique_together': {('product_set_id', 'user_id', 'product_id')},
             },
         ),
         migrations.CreateModel(
