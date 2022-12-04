@@ -7,8 +7,9 @@ from rest_framework.request import Request
 from products_service.exceptions.service import ValidationException
 from products_service.exceptions.service import BadRequestException
 from products_service.mappers.services import (
+    AttachmentsServiceMapper,
     OrdersServiceMapper,
-    UsersServiceMapper, 
+    UsersServiceMapper,
 )
 from products_service.serializers.responses.products import (
     CategoryTypeProductsResponseSerializer,
@@ -67,6 +68,10 @@ def category_products(request: Request, category_id: UUID) -> Response:
     category = CategoryMapper.get_by_id(id=category_id)
     products = ProductMapper.find_by_category(
         category_id=request_serializer.category_id
+    )
+
+    images = AttachmentsServiceMapper.get_images_by_source(
+        source_ids=list(map(lambda product: product.id, products))
     )
 
     paginator = DjangoPaginator(
@@ -229,6 +234,7 @@ def product_detail(request: Request, product_id: UUID) -> Response:
     product = ProductMapper.get_by_id(id=product_id)
 
     response_serializer = ProductDetailResponseSerializer(
+        media=None,
         instance=[product],
         many=True
     )

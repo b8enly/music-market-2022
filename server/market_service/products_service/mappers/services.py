@@ -1,6 +1,7 @@
 import requests
 
 from products_service.exceptions.mappers import (
+    AttachmentsServiceMapperInternalException,
     UsersServiceMapperInternalException,
     OrdersServiceMapperInternalExcption,
 )
@@ -148,3 +149,46 @@ class OrdersServiceMapper:
             raise OrdersServiceMapperInternalExcption(response.json())
         
         return response.json()
+
+
+class AttachmentsServiceMapper:
+    BASE_URL = "http://127.0.0.1:8000/api/attachments/internal"
+
+    @staticmethod
+    def get_attachments_by_source(source_ids: list[UUID]) -> dict:
+        print(source_ids)
+        response = requests.get(
+            url=f"{AttachmentsServiceMapper.BASE_URL}/source",
+            data={
+                "source_ids": source_ids
+            }
+        )
+
+        if not response.ok:
+            raise AttachmentsServiceMapperInternalException(response.json())
+        
+        return response.json()
+    
+    @staticmethod
+    def get_images_by_source(source_ids: list[UUID]) -> dict:
+        attachments = AttachmentsServiceMapper.get_attachments_by_source(
+            source_ids=source_ids
+        )
+
+        res = {}
+        for source_id in attachments:
+            res[source_id] = attachments[source_id].get("image")
+
+        return res
+
+    @staticmethod
+    def get_videos_by_source(source_ids: list[UUID]) -> dict:
+        attachments = AttachmentsServiceMapper.get_attachments_by_source(
+            source_ids=source_ids
+        )
+
+        res = {}
+        for source_id in attachments:
+            res[source_id] = attachments[source_id].get("video")
+
+        return res

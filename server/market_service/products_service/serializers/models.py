@@ -1,3 +1,4 @@
+from products_service.mappers.services import AttachmentsServiceMapper
 from products_service.models import Brand, Type, Category, Product
 from products_service.mappers.models import (
     CategoryMapper, 
@@ -31,13 +32,20 @@ class ProductSerializer(ModelSerializer):
     class Meta:
         model = Product
         fields = "__all__"
+
+    def __init__(self, media, instance=None, data=..., **kwargs):
+        super().__init__(instance, data, **kwargs)
+        self._data = {}
+        self.media = media
     
     def to_representation(self, instance: Product) -> dict:
-        return {
+        self._data.update({
             "id": instance.id,
             "name": instance.name,
-            "price": instance.price
-        }
+            "price": instance.price,
+            "media": self.media.get(str(instance.id))
+        })
+        return self._data
     
     def get_category(self, category_id: UUID) -> dict:
         category = CategoryMapper.get_by_id(id=category_id)
@@ -53,6 +61,9 @@ class ProductSerializer(ModelSerializer):
 
 
 class CategoryProductSerializer(ProductSerializer):
+    def __init__(self, media, instance=None, data=..., **kwargs):
+        super().__init__(media, instance, data, **kwargs)
+
     def to_representation(self, instance: Product):
         data = super().to_representation(instance=instance)
         data["brand"] = self.get_brand(brand_id=instance.brand.id)
@@ -60,8 +71,8 @@ class CategoryProductSerializer(ProductSerializer):
 
 
 class ProductDetailSerializer(ProductSerializer):
-    def __init__(self, instance=None, data=..., **kwargs):
-        super().__init__(instance, data, **kwargs)
+    def __init__(self, media, instance=None, data=..., **kwargs):
+        super().__init__(media, instance, data, **kwargs)
     
     def to_representation(self, instance: Product) -> dict:
         data = super().to_representation(instance)

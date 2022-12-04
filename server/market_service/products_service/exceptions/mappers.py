@@ -4,3 +4,7 @@ class UsersServiceMapperInternalException(Exception):
 
 class OrdersServiceMapperInternalExcption(Exception):
     pass
+
+
+class AttachmentsServiceMapperInternalException(Exception):
+    pass
