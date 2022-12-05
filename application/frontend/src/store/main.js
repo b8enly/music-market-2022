@@ -6,6 +6,9 @@ export default {
         products: [],
         currentProduct: {},
         characteristicsLength: 0,
+        cart: [],
+        category: [],
+        productsByName: [],
     },
     getters: {
         CATEGORY_PRODUCTS(state) {
@@ -17,6 +20,12 @@ export default {
         CHARACTERISTICS_LENGTH(state) {
             return state.characteristicsLength;
         },
+        CART(state) {
+            return state.cart;
+        },
+        CATEGORY(state) {
+            return state.category;
+        }
     },
     mutations: {
          SET_CATEGORY_PRODUCTS(state, products) {
@@ -26,6 +35,14 @@ export default {
             state.currentProduct = product;
             state.characteristicsLength = product.characteristics.length;
         },
+        SET_CATEGORY(state, category) {
+             state.category = category;
+        },
+        SET_CATEGORY_BY_NAME(state, categoryName) {
+             this.productsByName =  state.category.findIndex(function (cat){
+                 return cat.name === categoryName;
+             });
+        }
     },
     actions: {
         LOAD_PRODUCTS_BY_CATEGORY(ctx, {categoryId, page, pageSize}) {
@@ -43,6 +60,16 @@ export default {
                     ctx.commit('SET_CURRENT_PRODUCT', this.data.data)
                 });
         },
+        LOAD_CATEGORY(ctx) {
+            return axios
+                .get('http://127.0.0.1:8000/api/products/categories?count=5')
+                .then(async (data) => {
+                    await ctx.commit('SET_CATEGORY', data.data)
+                })
+        },
+        LOAD_PRODUCTS_BY_CATEGORY_NAME(ctx, {categoryName}) {
+            ctx.commit('SET_CATEGORY_BY_NAME', categoryName);
+        }
     },
     modules: {}
 }

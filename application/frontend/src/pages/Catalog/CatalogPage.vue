@@ -1,13 +1,14 @@
 <template>
   <div class="catalog">
 
-<!--    верх каталога и фильтрация-->
+    <!--    верх каталога и фильтрация-->
     <div class="catalog__path-wrapper">
-      <span class="catalog__path" v-for="(path, index) in paths" :key="index"> {{path}} /</span>
-      <span class="catalog__path-last"> Акустические гитары </span>
+      <span class="catalog__path" v-for="(path, index) in paths" :key="index"> {{ path }} /</span>
+      <span class="catalog__path-last"> {{ products.category.name }} </span>
     </div>
 
-    <div class="catalog__title"> Акустические гитары </div>
+    <div class="catalog__title" @click="onTest()"> {{ products.category.name }} </div>
+    <!--    {{$route.params.category}}-->
 
     <div class="catalog__tags"> <!-- теги потом будет вывод через цикл-->
       <button class="catalog__tags-btn">Классика</button>
@@ -18,20 +19,20 @@
     <div class="catalog__filter">
 
       <div class="catalog__sort wrapper">
-      <label class="catalog__label" for="sort">Сортировка</label>
-      <select class="catalog__select" id="sort">
-        <option class="catalog__select-item" value="Popular" selected>Популярное</option>
-        <option class="catalog__select-item" value="Discounts">Скидки</option>
-        <option class="catalog__select-item" value="New">Новое</option>
-        <option class="catalog__select-item" value="Professional">Профи</option>
-      </select>
+        <label class="catalog__label" for="sort">Сортировка</label>
+        <select class="catalog__select" id="sort">
+          <option class="catalog__select-item" value="Popular" selected>Популярное</option>
+          <option class="catalog__select-item" value="Discounts">Скидки</option>
+          <option class="catalog__select-item" value="New">Новое</option>
+          <option class="catalog__select-item" value="Professional">Профи</option>
+        </select>
       </div>
 
       <div class="catalog__price wrapper">
         <label class="catalog__label" for="price">Цена</label>
         <div class="catalog__price" id="price">
-        <input class="catalog__price-item" type="text" placeholder="от"/>
-        <input class="catalog__price-item" type="text" placeholder="до"/>
+          <input class="catalog__price-item" type="text" placeholder="от"/>
+          <input class="catalog__price-item" type="text" placeholder="до"/>
         </div>
       </div>
 
@@ -41,17 +42,17 @@
         </label>
         <div>
           <select class="catalog__select" id="brand">
-            <option class="catalog__select-item"  value="Fender" selected>Fender</option>
-            <option class="catalog__select-item"  value="Ibanez">Ibanez</option>
+            <option class="catalog__select-item" value="Fender" selected>Fender</option>
+            <option class="catalog__select-item" value="Ibanez">Ibanez</option>
             <option class="catalog__select-item" value="Gibson">Gibson</option>
-            <option class="catalog__select-item"  value="Ovation">Ovation</option>
+            <option class="catalog__select-item" value="Ovation">Ovation</option>
           </select>
         </div>
       </div>
 
       <div class="catalog__checkbox wrapper">
 
-        <label class="catalog__label"  for="checkbox"> Только в наличии</label>
+        <label class="catalog__label" for="checkbox"> Только в наличии</label>
         <label class="switch">
           <input type="checkbox" id="checkbox">
           <span class="slider"></span>
@@ -64,98 +65,121 @@
 
     <div class="catalog__card-wrapper">
 
-      <CatalogItemComponent
-          v-for="(product, index) in 16"
-          :key="index"
-      />
-      <!--          v-bind:product_data="product"-->
+            <CatalogItemComponent
+                v-for="(product, index) in products.results"
+                :key="index" :category="products.category" :product="product"
+            />
+<!--                v-bind:product_data="product"-->
     </div>
 
 
-<!--    пагинация-->
+    <!--    пагинация-->
 
     <div class="catalog__page">
       <div class="catalog__page-prev" v-if="this.currentPage > 1">
         <span class="catalog__prev-btn" @click="()=>{return this.currentPage-=1}"><img class="catalog__page-img"
                                                                                        style="transform:rotateY(180deg)"
-                                                                                       :src="require('../../assets/icon/iconArrowBlack.svg')" alt="arrow"> Предыдущая страница </span>
+                                                                                       :src="require('../../assets/icon/iconArrowBlack.svg')"
+                                                                                       alt="arrow"> Предыдущая страница </span>
         <span class="catalog__page-add"> ... </span>
       </div>
 
       <div class="catalog__page-wrapper">
         <input class="catalog__page-btn"
                type="button"
-                :class="{'active': page===currentPage}"
-                v-for="(page, index) in pages"
-                :key="index"
-                @click="nextPage(page)"
-                :value="page"
+               :class="{'active': page===currentPage}"
+               v-for="(page, index) in pages"
+               :key="index"
+               @click="nextPage(page)"
+               :value="page"
         >
-        </div>
+      </div>
 
-        <div class="catalog__page-next" v-if="this.currentPage < this.pages">
+      <div class="catalog__page-next" v-if="this.currentPage < this.pages">
         <span class="catalog__page-add"> ... </span>
-        <span class="catalog__next-btn" @click="()=>{return this.currentPage+=1}"> Следующая страница <img class="catalog__page-img"
-                                                                                                           :src="require('../../assets/icon/iconArrowBlack.svg')" alt="arrow"></span>
-          <!-- переделать span на button?-->
-        </div>
+        <span class="catalog__next-btn" @click="()=>{return this.currentPage+=1}"> Следующая страница <img
+            class="catalog__page-img"
+            :src="require('../../assets/icon/iconArrowBlack.svg')" alt="arrow"></span>
+        <!-- переделать span на button?-->
+      </div>
     </div>
 
   </div>
+
 </template>
 
 <script>
 
 import CatalogItemComponent from "@/components/CatalogItemComponent";
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   name: "CatalogPage",
   components: {CatalogItemComponent},
 
-  data(){
-    return{
+  data() {
+    return {
       paths: ['Главная', 'Каталог'],
       pages: 3,
       currentPage: 1,
     }
   },
-  methods:{
+  mounted() {
+    this.LOAD_CATEGORY(),
+        this.LOAD_PRODUCTS_BY_CATEGORY({
+          categoryId: this.$route.params.category,
+          page: '1',
+          pageSize: '20',
+        }).then(() => {
+        })
+    // this.LOAD_PRODUCTS_BY_CATEGORY_NAME(this.$route.params.category
+  },
+  computed: {
+    ...mapGetters({products: 'CATEGORY_PRODUCTS', category: 'CATEGORY'}
+    ),
+  },
+  methods: {
+    ...mapActions(['LOAD_PRODUCTS_BY_CATEGORY_NAME', 'LOAD_CATEGORY', 'LOAD_PRODUCTS_BY_CATEGORY']),
     nextPage: function (page) {
       return this.currentPage = page
+    },
+    onTest: function () {
+      console.log(this.products.category.name);
     }
   }
 }
 </script>
 
 <style scoped>
-.catalog{
+.catalog {
   margin: 2% 7% 2% 7%;
 }
 
-.catalog__path{
+.catalog__path {
   color: rgba(184, 184, 184, 1);
   font-size: 17px;
 }
 
-.catalog__path-last{
+.catalog__path-last {
   font-size: 17px;
   color: rgba(29, 29, 29, 1);
 }
 
-.catalog__title{
+.catalog__title {
   color: rgba(223, 178, 89, 1);
   font-size: 38px;
   font-weight: 600;
   margin: 30px 0;
 }
 
-.catalog__tags{
+.catalog__tags {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   margin: 0 -11px;
 }
 
-.catalog__tags-btn{
+.catalog__tags-btn {
   background-color: rgba(228, 228, 228, 1);
   padding: 11px 64px;
   font-size: 18px;
@@ -165,13 +189,15 @@ export default {
   margin: 3px 11px;
   cursor: pointer;
 }
-.catalog__filter{
+
+.catalog__filter {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   margin: 40px -30px;
 }
-.catalog__select{
+
+.catalog__select {
   font-size: 16px;
   font-weight: 600;
   min-width: 173px;
@@ -179,25 +205,26 @@ export default {
   box-sizing: border-box;
   border: 2px solid rgba(144, 144, 144, 1);
   border-radius: 10px;
-  padding:  0 10px;
+  padding: 0 10px;
 }
 
-.catalog__price-item{
+.catalog__price-item {
   max-width: 90px;
   min-height: 42px;
   box-sizing: border-box;
   border: 2px solid rgba(144, 144, 144, 1);
   border-radius: 10px;
-  padding:  0 10px;
+  padding: 0 10px;
   margin: 0 5px;
 }
 
-.catalog__label{
+.catalog__label {
   color: rgba(29, 29, 29, 1);
   font-size: 18px;
   margin: 0 10px;
 }
-.wrapper{
+
+.wrapper {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -269,14 +296,14 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-.catalog__card-wrapper{
+.catalog__card-wrapper {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   margin: 0 -5px;
 }
 
-.catalog__page{
+.catalog__page {
   flex-wrap: wrap;
   display: flex;
   flex-direction: row;
@@ -284,14 +311,14 @@ input:checked + .slider:before {
   margin: 60px -5px;
 }
 
-.catalog__page-next, .catalog__page-wrapper, .catalog__page-prev{
+.catalog__page-next, .catalog__page-wrapper, .catalog__page-prev {
   flex-wrap: nowrap;
   display: flex;
   flex-direction: row;
 }
 
 
-.catalog__page-btn{
+.catalog__page-btn {
   min-width: 41px;
   min-height: 38px;
   border: none;
@@ -301,21 +328,25 @@ input:checked + .slider:before {
   font-size: 20px;
   cursor: pointer;
   text-align: center;
-  outline:none
+  outline: none
 }
-.active{
+
+.active {
   background: #DFB259;
   color: #FFFFFF;
   border-radius: 6px;
   font-weight: 600;
 }
-.catalog__page-add{
+
+.catalog__page-add {
   margin: 0 20px;
 }
-.catalog__page-img{
+
+.catalog__page-img {
   margin: 0 5px;
 }
-.catalog__next-btn, .catalog__prev-btn{
+
+.catalog__next-btn, .catalog__prev-btn {
   cursor: pointer;
 }
 

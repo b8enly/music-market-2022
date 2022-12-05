@@ -89,7 +89,7 @@
           </div>
 
           <div class="main__cart">
-            <button class="main__cart-btn">
+            <button class="main__cart-btn" @click="addToCart">
               В корзину
             </button>
           </div>
@@ -258,7 +258,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['LOAD_PRODUCT_BY_ID'])
+    ...mapActions(['LOAD_PRODUCT_BY_ID']),
+    addToCart() {
+      this.$emit('addToCart', this.product.data);
+      console.log('added', this.product.data);
+    }
   },
   mounted() {
     this.LOAD_PRODUCT_BY_ID(this.$route.params.id);

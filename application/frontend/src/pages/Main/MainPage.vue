@@ -25,38 +25,47 @@
       </div>
       <div class="items__products">
         <!--      Здесь должна быть карточка -->
-        <CatalogItemComponent v-for="product of products.results" :key="product.id" :product="product" :category="products.category"/>
+        <CatalogItemComponent v-for="product of products.results" :key="product.id" :product="product"
+                              :category="products.category"/>
       </div>
-      <button class="items__show-more">Показать еще</button>
+      <a class="items__catalog-btn" href="#catalog">
+        <button class="items__show-more">Показать еще</button>
+      </a>
     </section>
     <section class="main__catalog catalog">
       <h2 class="catalog__title" id="catalog">Каталог</h2>
       <!--      Здесь должен быть каталог с картинками-->
       <div class="catalog__container">
         <div class="catalog__first-row">
-          <div class="catalog__acoustic-card">
+          <router-link class="catalog__acoustic-card"
+                       :to="{ name: 'catalog', params: { category: '81aa7053-002b-4a57-90a1-e05d359f9f89'}}">
             <h4 class="catalog__acoustic-title">Акустические гитары</h4>
             <p class="catalog__acoustic-text">140 товаров</p>
-          </div>
-          <div class="catalog__electric-card">
+          </router-link>
+          <router-link class="catalog__electric-card"
+                       :to="{ name: 'catalog', params: { category: 'cf2da78f-a297-4d42-a265-ea27b07f8d1a'}}">
             <h4 class="catalog__electric-title">Электрогитары</h4>
             <p class="catalog__electric-text">95 товаров</p>
-          </div>
+          </router-link>
         </div>
-        <div class="catalog__bass-card">
+        <router-link class="catalog__bass-card"
+                     :to="{ name: 'catalog', params: { category: '5b0181e9-1a5a-48fe-bf54-4a78eaa6b116'}}">
           <h4 class="catalog__bass-title">Бас-гитары</h4>
           <p class="catalog__bass-text">55 товаров</p>
-        </div>
-        <div class="catalog__acs-card">
+        </router-link>
+        <router-link class="catalog__acs-card"
+                     :to="{ name: 'catalog', params: { category: '7eaa80ab-5ecb-4aa6-9e44-1f1f5d8bab65'}}">
           <h4 class="catalog__acs-title">Аксессуары <br>и комплектующие</h4>
           <p class="catalog__acs-text">210 товаров</p>
-        </div>
-        <div class="catalog__proc-card">
+        </router-link>
+        <router-link class="catalog__proc-card"
+                     :to="{ name: 'catalog', params: { category: 'aa79d129-1b89-4b9d-9d94-124dba3bbf6f'}}">
           <h4 class="catalog__proc-title">Процессоры <br>и педали эффектов</h4>
           <p class="catalog__proc-text">30 товаров</p>
-        </div>
+        </router-link>
       </div>
     </section>
+
     <section class="main__actions actions">
       <!--      Это блок акций, но я случайно в запаре записала его как actions-->
       <div class="actions__container">
@@ -64,7 +73,7 @@
           <h3 class="actions__first-title">Невероятное уникальное рекламное предложение</h3>
           <button class="actions__first-button">
             <div class="actions__background-btn"></div>
-            Повестись на акцию
+            Узнать подробнее
           </button>
           <div class="actions__background-block actions__background-block--first"></div>
         </div>
@@ -73,17 +82,21 @@
             <h3 class="actions__second-title">Оплати 2, получи 3!</h3>
             <p class="actions__second-sub">При покупке трех позиций из категории “Аксессуары” можно оплатить только
               две.</p>
-            <button class="actions__down-button">
-              К акссесуарам &#8594;
-            </button>
+            <a class="actions__catalog-btn" href="#catalog">
+              <button class="actions__down-button">
+                К акссесуарам &#8594;
+              </button>
+            </a>
             <div class="actions__background-block actions__background-block--second"></div>
           </div>
           <div class="actions__third">
             <h3 class="actions__third-title">Бесплатная доставка</h3>
             <p class="actions__third-sub">При заказе на сумму от 1500 рублей мы осуществляем доставку за наш счет.</p>
-            <button class="actions__down-button">
-              В каталог &#8594;
-            </button>
+            <a class="actions__catalog-btn" href="#catalog">
+              <button class="actions__down-button">
+                В каталог &#8594;
+              </button>
+            </a>
             <div class="actions__background-block actions__background-block--third"></div>
           </div>
         </div>
@@ -94,7 +107,7 @@
       <div class="brands__container">
         <div class="brands__first-row">
           <h2 class="brands__title">Бренды</h2>
-          <button class="brands__btn">Смотреть все &#8594;</button>
+<!--          <button class="brands__btn">Смотреть все &#8594;</button>-->
         </div>
         <div class="brands__second-row">
           <img class="brands__image"
@@ -150,17 +163,21 @@
           компанией Yamaha, форма которой точно соответствует форме Stratocaster, или гитара компании Ibanez с
           дизайном Gibson ES-355.
         </p>
+        <a class="description__more-btn" href="https://vk.com/buyguitarmpu">
         <button class="description__button">
           <div class="description__background-btn"></div>
           Узнать больше
         </button>
+        </a>
       </div>
       <div class="description__background-light"></div>
     </section>
     <section class="main__feedback feedback">
       <div class="feedback__first-row">
         <h2 class="feedback__title">О нас пишут...</h2>
-        <button class="feedback__btn">Смотреть все &#8594;</button>
+        <a class="description__more-btn" href="https://vk.com/buyguitarmpu">
+          <button class="feedback__btn">Смотреть все &#8594;</button>
+        </a>
         <!--      Здесь должна быть карточка -->
       </div>
       <div class="feedback__second-row">
@@ -215,14 +232,16 @@ export default {
     this.LOAD_PRODUCTS_BY_CATEGORY({
       categoryId: '81aa7053-002b-4a57-90a1-e05d359f9f89',
       page: '1',
-      pageSize: '4',}).then(()=>{
-    })
+      pageSize: '4',
+    }).then(() => {
+    }),
+        this.LOAD_CATEGORY()
   },
   methods: {
-    ...mapActions(['LOAD_PRODUCTS_BY_CATEGORY'])
+    ...mapActions(['LOAD_PRODUCTS_BY_CATEGORY', 'LOAD_CATEGORY']),
   },
   computed: {
-    ...mapGetters({products: 'CATEGORY_PRODUCTS',}
+    ...mapGetters({products: 'CATEGORY_PRODUCTS', category: 'CATEGORY'}
     )
   }
 };
@@ -805,5 +824,9 @@ export default {
   padding: 50px 0 20px 0;
   margin: 0 -5px 0 -5px;
   flex-wrap: wrap;
+}
+
+a {
+  text-decoration: none;
 }
 </style>
