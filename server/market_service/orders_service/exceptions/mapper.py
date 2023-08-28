@@ -1,2 +1,0 @@
-class UserServiceMapperInternalException(Exception):
-    pass
